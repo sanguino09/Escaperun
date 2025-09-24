@@ -1,1 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Escape Allende 29</title>
+    <meta
+      name="description"
+      content="Escape room móvil para celebrar el cumpleaños 29 de Allende"
+    />
+    <meta name="theme-color" content="#5a1033" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Allende29" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20128%20128%27%3E%0A%20%20%3Crect%20width%3D%27128%27%20height%3D%27128%27%20rx%3D%2728%27%20fill%3D%27%235a1033%27/%3E%0A%20%20%3Cpath%20d%3D%27M64%2098c-1.6%200-3.3-.5-4.7-1.5-16.2-12-26.9-21.2-33-29-5.8-7.5-8.3-14.1-8.3-21.8C18%2032.9%2028.3%2024%2040.9%2024c8.5%200%2015%203.8%2019.1%2010.8C64.1%2027.8%2070.6%2024%2079.1%2024%2091.7%2024%20102%2032.9%20102%2046.7c0%207.7-2.5%2014.3-8.3%2021.8-6.2%207.8-16.8%2017-33%2029-1.4%201-3.1%201.5-4.7%201.5z%27%20fill%3D%27%23f5c16c%27/%3E%0A%20%20%3Cpath%20d%3D%27M50.8%2070.5h6.2l3.1-13.4%203.6%2023.8%204.3-18.3%202.8%207.9h6.4%27%20fill%3D%27none%27%20stroke%3D%27%23fcead0%27%20stroke-width%3D%275%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27/%3E%0A%3C/svg%3E"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20512%20512%27%3E%0A%20%20%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27112%27%20fill%3D%27%235a1033%27/%3E%0A%20%20%3Cpath%20d%3D%27M256%20392c-6.4%200-13.2-2-18.8-6-64.8-48-107.6-84.8-132-116-23.2-30-33.2-56.4-33.2-87.2C72%20131.6%20113.2%2096%20163.6%2096c34%200%2060%2015.2%2076.4%2043.2C256.4%20111.2%20282.4%2096%20316.4%2096c50.4%200%2091.6%2035.6%2091.6%2086.8%200%2030.8-10%2057.2-33.2%2087.2-24.8%2031.2-67.2%2068-132%20116-5.6%204-12.4%206-18.8%206z%27%20fill%3D%27%23f5c16c%27/%3E%0A%20%20%3Cpath%20d%3D%27M203.2%20282h24.8l12.4-53.6%2014.4%2095.2%2017.2-73.2%2011.2%2031.6h25.6%27%20fill%3D%27none%27%20stroke%3D%27%23fcead0%27%20stroke-width%3D%2720%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27/%3E%0A%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <p class="hero__tag">🎉 ¡Feliz vuelta al sol #29!</p>
+        <h1>Escape Room para Allende</h1>
+        <p class="hero__subtitle">
+          Un juego en tu móvil inspirado en Hello Kitty, viajes sin fin y cafés de
+          Starbucks. Resuelve los acertijos, reúne los códigos y desbloquea tu
+          sorpresa final.
+        </p>
+      </div>
+      <div class="hero__badges">
+        <span>💖 Hello Kitty</span>
+        <span>✈️ Aventuras</span>
+        <span>☕ Starbucks</span>
+      </div>
+    </header>
 
+    <main>
+      <section id="intro" class="card card--intro">
+        <h2>¿Lista para jugar, Allende?</h2>
+        <p>
+          Guarda este juego en tu pantalla de inicio para que siempre te acompañe.
+          Cuando estés lista, toca el botón y comienza la misión que preparó tu
+          fan #1.
+        </p>
+        <button id="startGame" class="btn btn--primary">Comenzar aventura</button>
+        <p class="hint">Pista: cada reto te regala un número mágico. ¡Los necesitarás al final!</p>
+      </section>
+
+      <section class="progress card">
+        <h3>Progreso de la misión</h3>
+        <ul id="progressTracker" class="progress__steps">
+          <li class="active" data-step="kitty">Hello Kitty</li>
+          <li data-step="travel">Destino secreto</li>
+          <li data-step="drink">Receta Starbucks</li>
+          <li data-step="final">Gran final</li>
+        </ul>
+      </section>
+
+      <section id="kitty-puzzle" class="card puzzle hidden" aria-hidden="true">
+        <h2>Reto 1 · El lazo más famoso</h2>
+        <p>
+          Hello Kitty escondió la palabra que más la representa. Toca los stickers
+          en el orden correcto para escribirla. Cuando completes la palabra,
+          aparecerá tu primer número secreto.
+        </p>
+        <div class="stickers" role="group" aria-label="Stickers de Hello Kitty">
+          <button class="kitty-sticker" data-letter="K" aria-label="Letra K">🌸 K</button>
+          <button class="kitty-sticker" data-letter="T" aria-label="Letra T">🎀 T</button>
+          <button class="kitty-sticker" data-letter="I" aria-label="Letra I">😺 I</button>
+          <button class="kitty-sticker" data-letter="Y" aria-label="Letra Y">🍓 Y</button>
+          <button class="kitty-sticker" data-letter="T" aria-label="Letra T">💌 T</button>
+        </div>
+        <div class="kitty-output">
+          <span id="kittyDisplay" aria-live="polite" aria-atomic="true"></span>
+          <button id="kittyReset" class="btn btn--ghost">Reiniciar</button>
+        </div>
+        <p id="kittyMessage" class="message" role="status"></p>
+      </section>
+
+      <section id="travel-puzzle" class="card puzzle hidden" aria-hidden="true">
+        <h2>Reto 2 · La postal viajera</h2>
+        <p>
+          Cada postal es un destino que aman los aventureros. Lee las pistas y
+          elige la correcta: <strong>hogar de Hello Kitty</strong>,
+          <strong>ciudad brillante por la noche</strong> y perfecta para celebrar un
+          cumpleaños épico.
+        </p>
+        <div class="destinations" role="list">
+          <button class="destination-card" data-key="paris">
+            <span class="destination-card__emoji">🗼</span>
+            <span class="destination-card__name">París</span>
+            <p>Romance y croissants, pero no es el origen de Sanrio.</p>
+          </button>
+          <button class="destination-card" data-key="tokyo">
+            <span class="destination-card__emoji">🗻</span>
+            <span class="destination-card__name">Tokio</span>
+            <p>Luces vibrantes, cultura pop por doquier y la casa de Hello Kitty.</p>
+          </button>
+          <button class="destination-card" data-key="seattle">
+            <span class="destination-card__emoji">🌲</span>
+            <span class="destination-card__name">Seattle</span>
+            <p>Cuna de cierto café famoso, pero no es la pista correcta.</p>
+          </button>
+        </div>
+        <p id="travelMessage" class="message" role="status"></p>
+      </section>
+
+      <section id="drink-puzzle" class="card puzzle hidden" aria-hidden="true">
+        <h2>Reto 3 · Barista por una noche</h2>
+        <p>
+          Para la fiesta 29, prepara el latte favorito de Allende.
+          Selecciona los ingredientes que necesita un <em>Caramel Macchiato</em> y
+          sirve la bebida perfecta.
+        </p>
+        <form id="drinkForm" class="drink-form">
+          <fieldset>
+            <legend>Elige tus ingredientes</legend>
+            <label class="pill">
+              <input type="checkbox" name="ingredient" value="espresso" />
+              <span>Espresso</span>
+            </label>
+            <label class="pill">
+              <input type="checkbox" name="ingredient" value="leche" />
+              <span>Leche vaporizada</span>
+            </label>
+            <label class="pill">
+              <input type="checkbox" name="ingredient" value="caramelo" />
+              <span>Jarabe de caramelo</span>
+            </label>
+            <label class="pill">
+              <input type="checkbox" name="ingredient" value="crema" />
+              <span>Crema batida</span>
+            </label>
+            <label class="pill">
+              <input type="checkbox" name="ingredient" value="matcha" />
+              <span>Matcha</span>
+            </label>
+            <label class="pill">
+              <input type="checkbox" name="ingredient" value="chocolate" />
+              <span>Chocolate</span>
+            </label>
+            <label class="pill">
+              <input type="checkbox" name="ingredient" value="hielo" />
+              <span>Hielo</span>
+            </label>
+          </fieldset>
+          <button type="submit" class="btn btn--primary">Servir bebida</button>
+        </form>
+        <p id="drinkMessage" class="message" role="status"></p>
+      </section>
+
+      <section id="final-lock" class="card puzzle hidden" aria-hidden="true">
+        <h2>Reto final · Código 29</h2>
+        <p>
+          Combina los tres números mágicos de los retos anteriores para desbloquear
+          el regalo digital. <strong>Tip:</strong> ordénalos tal como viviste los
+          desafíos.
+        </p>
+        <form id="finalForm" class="final-form">
+          <label for="finalCode">Introduce el código secreto</label>
+          <input
+            id="finalCode"
+            name="finalCode"
+            type="tel"
+            inputmode="numeric"
+            maxlength="3"
+            autocomplete="one-time-code"
+            placeholder="_ _ _"
+            required
+          />
+          <button type="submit" class="btn btn--secondary">Desbloquear</button>
+        </form>
+        <p id="finalMessage" class="message" role="status"></p>
+      </section>
+
+      <section id="celebration" class="card celebration hidden" aria-hidden="true">
+        <h2>🎀 ¡Sorpresa desbloqueada!</h2>
+        <p>
+          Allende, cumpliste la misión 29 con estilo. Este es solo el primer nivel
+          de todas las aventuras que te esperan con quien te adora.
+        </p>
+        <ul class="celebration__perks">
+          <li>✨ Pase dorado para un maratón de Hello Kitty + helado</li>
+          <li>🧳 Viaje sorpresa planeado a tu ritmo (¡destino secreto!)</li>
+          <li>☕ Vale por cafés Starbucks personalizados durante todo el mes</li>
+        </ul>
+        <p class="celebration__note">
+          Guarda esta app en tu pantalla de inicio y vuelve cuando quieras un boost
+          de cariño. ¡Feliz cumpleaños 29!
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Hecho con 💗, planes hechos a medida y litros de caramel macchiato
+        especialmente para Allende.
+      </p>
+    </footer>
+  </body>
+</html>
