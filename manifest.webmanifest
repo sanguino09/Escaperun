@@ -1,11 +1,11 @@
 {
-  "name": "Escape Allende 29",
-  "short_name": "Allende29",
+  "name": "Habitación 29",
+  "short_name": "Hab29",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f3ece2",
   "theme_color": "#5a1033",
-  "description": "Escape room temático para el cumpleaños 29 de Allende",
+  "description": "Escape room táctil ambientado en la habitación secreta del cumpleaños 29",
   "icons": [
     {
       "src": "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20128%20128%27%3E%0A%20%20%3Crect%20width%3D%27128%27%20height%3D%27128%27%20rx%3D%2728%27%20fill%3D%27%235a1033%27/%3E%0A%20%20%3Cpath%20d%3D%27M64%2098c-1.6%200-3.3-.5-4.7-1.5-16.2-12-26.9-21.2-33-29-5.8-7.5-8.3-14.1-8.3-21.8C18%2032.9%2028.3%2024%2040.9%2024c8.5%200%2015%203.8%2019.1%2010.8C64.1%2027.8%2070.6%2024%2079.1%2024%2091.7%2024%20102%2032.9%20102%2046.7c0%207.7-2.5%2014.3-8.3%2021.8-6.2%207.8-16.8%2017-33%2029-1.4%201-3.1%201.5-4.7%201.5z%27%20fill%3D%27%23f5c16c%27/%3E%0A%20%20%3Cpath%20d%3D%27M50.8%2070.5h6.2l3.1-13.4%203.6%2023.8%204.3-18.3%202.8%207.9h6.4%27%20fill%3D%27none%27%20stroke%3D%27%23fcead0%27%20stroke-width%3D%275%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27/%3E%0A%3C/svg%3E",
