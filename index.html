@@ -57,8 +57,11 @@
           Cuando estés lista, toca el botón y comienza la misión que preparó tu
           fan #1.
         </p>
-        <button id="startGame" class="btn btn--primary">Comenzar aventura</button>
-        <p class="hint">Pista: cada reto te regala un número mágico. ¡Los necesitarás al final!</p>
+        <button id="startGame" class="btn btn--primary">Entrar en la mansión</button>
+        <p class="hint">
+          Pista: cada habitación es un lugar real y te regala un número mágico.
+          ¡Los necesitarás al final!
+        </p>
       </section>
 
       <section class="progress card">
@@ -71,121 +74,224 @@
         </ul>
       </section>
 
-      <section id="kitty-puzzle" class="card puzzle hidden" aria-hidden="true">
-        <h2>Reto 1 · El lazo más famoso</h2>
+      <section id="missionMap" class="card map hidden" aria-hidden="true">
+        <h2>Mapa interactivo · Mansión Allende 29</h2>
         <p>
-          Hello Kitty escondió la palabra que más la representa. Toca los stickers
-          en el orden correcto para escribirla. Cuando completes la palabra,
-          aparecerá tu primer número secreto.
+          Cada punto del mapa es un lugar real. Visítalo, resuelve el reto y
+          consigue el número mágico. Cuando termines, vuelve al mapa para viajar a
+          la siguiente habitación.
         </p>
-        <div class="stickers" role="group" aria-label="Stickers de Hello Kitty">
-          <button class="kitty-sticker" data-letter="K" aria-label="Letra K">🌸 K</button>
-          <button class="kitty-sticker" data-letter="T" aria-label="Letra T">🎀 T</button>
-          <button class="kitty-sticker" data-letter="I" aria-label="Letra I">😺 I</button>
-          <button class="kitty-sticker" data-letter="Y" aria-label="Letra Y">🍓 Y</button>
-          <button class="kitty-sticker" data-letter="T" aria-label="Letra T">💌 T</button>
+        <div class="map__grid" role="list">
+          <button
+            class="map__node map__node--kitty"
+            type="button"
+            data-room="kitty"
+            aria-label="Visitar la habitación de Hello Kitty en Tokio"
+            aria-disabled="true"
+            disabled
+          >
+            <span class="map__label">Sanrio Puroland · Tokio</span>
+            <span class="map__name">Suite Hello Kitty</span>
+            <span class="map__status">Bloqueada</span>
+          </button>
+          <button
+            class="map__node map__node--travel"
+            type="button"
+            data-room="travel"
+            aria-label="Visitar el mirador nocturno de Shibuya"
+            aria-disabled="true"
+            disabled
+          >
+            <span class="map__label">Shibuya Sky · Tokio</span>
+            <span class="map__name">Mirador brillante</span>
+            <span class="map__status">Bloqueada</span>
+          </button>
+          <button
+            class="map__node map__node--drink"
+            type="button"
+            data-room="drink"
+            aria-label="Visitar la Starbucks Reserve Roastery en Seattle"
+            aria-disabled="true"
+            disabled
+          >
+            <span class="map__label">Starbucks Reserve Roastery · Seattle</span>
+            <span class="map__name">Barra caramel macchiato</span>
+            <span class="map__status">Bloqueada</span>
+          </button>
+          <button
+            class="map__node map__node--final"
+            type="button"
+            data-room="final"
+            aria-label="Subir a la terraza secreta de CDMX"
+            aria-disabled="true"
+            disabled
+          >
+            <span class="map__label">Terraza Reforma 180 · Ciudad de México</span>
+            <span class="map__name">Azotea celebratoria</span>
+            <span class="map__status">Bloqueada</span>
+          </button>
         </div>
-        <div class="kitty-output">
-          <span id="kittyDisplay" aria-live="polite" aria-atomic="true"></span>
-          <button id="kittyReset" class="btn btn--ghost">Reiniciar</button>
-        </div>
-        <p id="kittyMessage" class="message" role="status"></p>
       </section>
 
-      <section id="travel-puzzle" class="card puzzle hidden" aria-hidden="true">
-        <h2>Reto 2 · La postal viajera</h2>
-        <p>
-          Cada postal es un destino que aman los aventureros. Lee las pistas y
-          elige la correcta: <strong>hogar de Hello Kitty</strong>,
-          <strong>ciudad brillante por la noche</strong> y perfecta para celebrar un
-          cumpleaños épico.
-        </p>
-        <div class="destinations" role="list">
-          <button class="destination-card" data-key="paris">
-            <span class="destination-card__emoji">🗼</span>
-            <span class="destination-card__name">París</span>
-            <p>Romance y croissants, pero no es el origen de Sanrio.</p>
-          </button>
-          <button class="destination-card" data-key="tokyo">
-            <span class="destination-card__emoji">🗻</span>
-            <span class="destination-card__name">Tokio</span>
-            <p>Luces vibrantes, cultura pop por doquier y la casa de Hello Kitty.</p>
-          </button>
-          <button class="destination-card" data-key="seattle">
-            <span class="destination-card__emoji">🌲</span>
-            <span class="destination-card__name">Seattle</span>
-            <p>Cuna de cierto café famoso, pero no es la pista correcta.</p>
-          </button>
+      <section id="kitty-puzzle" class="room room--kitty hidden" aria-hidden="true">
+        <div class="room__content">
+          <header class="room__header">
+            <button class="room__back btn btn--ghost" data-action="back-to-map">⬅️ Volver al mapa</button>
+            <div class="room__intro">
+              <p class="room__location">Sanrio Puroland · Tokio, Japón</p>
+              <p class="room__subtitle">Suite oficial de Hello Kitty rodeada de lazos y moños rosas.</p>
+            </div>
+          </header>
+          <article class="room__panel card puzzle">
+            <h2>Reto 1 · El lazo más famoso</h2>
+            <p>
+              Hello Kitty escondió la palabra que más la representa. Toca los stickers
+              en el orden correcto para escribirla. Cuando completes la palabra,
+              aparecerá tu primer número secreto.
+            </p>
+            <div class="stickers" role="group" aria-label="Stickers de Hello Kitty">
+              <button class="kitty-sticker" data-letter="K" aria-label="Letra K">🌸 K</button>
+              <button class="kitty-sticker" data-letter="T" aria-label="Letra T">🎀 T</button>
+              <button class="kitty-sticker" data-letter="I" aria-label="Letra I">😺 I</button>
+              <button class="kitty-sticker" data-letter="Y" aria-label="Letra Y">🍓 Y</button>
+              <button class="kitty-sticker" data-letter="T" aria-label="Letra T">💌 T</button>
+            </div>
+            <div class="kitty-output">
+              <span id="kittyDisplay" aria-live="polite" aria-atomic="true"></span>
+              <button id="kittyReset" class="btn btn--ghost">Reiniciar</button>
+            </div>
+            <p id="kittyMessage" class="message" role="status"></p>
+          </article>
         </div>
-        <p id="travelMessage" class="message" role="status"></p>
       </section>
 
-      <section id="drink-puzzle" class="card puzzle hidden" aria-hidden="true">
-        <h2>Reto 3 · Barista por una noche</h2>
-        <p>
-          Para la fiesta 29, prepara el latte favorito de Allende.
-          Selecciona los ingredientes que necesita un <em>Caramel Macchiato</em> y
-          sirve la bebida perfecta.
-        </p>
-        <form id="drinkForm" class="drink-form">
-          <fieldset>
-            <legend>Elige tus ingredientes</legend>
-            <label class="pill">
-              <input type="checkbox" name="ingredient" value="espresso" />
-              <span>Espresso</span>
-            </label>
-            <label class="pill">
-              <input type="checkbox" name="ingredient" value="leche" />
-              <span>Leche vaporizada</span>
-            </label>
-            <label class="pill">
-              <input type="checkbox" name="ingredient" value="caramelo" />
-              <span>Jarabe de caramelo</span>
-            </label>
-            <label class="pill">
-              <input type="checkbox" name="ingredient" value="crema" />
-              <span>Crema batida</span>
-            </label>
-            <label class="pill">
-              <input type="checkbox" name="ingredient" value="matcha" />
-              <span>Matcha</span>
-            </label>
-            <label class="pill">
-              <input type="checkbox" name="ingredient" value="chocolate" />
-              <span>Chocolate</span>
-            </label>
-            <label class="pill">
-              <input type="checkbox" name="ingredient" value="hielo" />
-              <span>Hielo</span>
-            </label>
-          </fieldset>
-          <button type="submit" class="btn btn--primary">Servir bebida</button>
-        </form>
-        <p id="drinkMessage" class="message" role="status"></p>
+      <section id="travel-puzzle" class="room room--travel hidden" aria-hidden="true">
+        <div class="room__content">
+          <header class="room__header">
+            <button class="room__back btn btn--ghost" data-action="back-to-map">⬅️ Volver al mapa</button>
+            <div class="room__intro">
+              <p class="room__location">Shibuya Sky · Tokio, Japón</p>
+              <p class="room__subtitle">Un mirador real de 360° donde la ciudad brilla como un tablero.</p>
+            </div>
+          </header>
+          <article class="room__panel card puzzle">
+            <h2>Reto 2 · La postal viajera</h2>
+            <p>
+              Cada postal es un destino que aman los aventureros. Lee las pistas y
+              elige la correcta: <strong>hogar de Hello Kitty</strong>,
+              <strong>ciudad brillante por la noche</strong> y perfecta para celebrar un
+              cumpleaños épico.
+            </p>
+            <div class="destinations" role="list">
+              <button class="destination-card" data-key="paris">
+                <span class="destination-card__emoji">🗼</span>
+                <span class="destination-card__name">París</span>
+                <p>Romance y croissants, pero no es el origen de Sanrio.</p>
+              </button>
+              <button class="destination-card" data-key="tokyo">
+                <span class="destination-card__emoji">🗻</span>
+                <span class="destination-card__name">Tokio</span>
+                <p>Luces vibrantes, cultura pop por doquier y la casa de Hello Kitty.</p>
+              </button>
+              <button class="destination-card" data-key="seattle">
+                <span class="destination-card__emoji">🌲</span>
+                <span class="destination-card__name">Seattle</span>
+                <p>Cuna de cierto café famoso, pero no es la pista correcta.</p>
+              </button>
+            </div>
+            <p id="travelMessage" class="message" role="status"></p>
+          </article>
+        </div>
       </section>
 
-      <section id="final-lock" class="card puzzle hidden" aria-hidden="true">
-        <h2>Reto final · Código 29</h2>
-        <p>
-          Combina los tres números mágicos de los retos anteriores para desbloquear
-          el regalo digital. <strong>Tip:</strong> ordénalos tal como viviste los
-          desafíos.
-        </p>
-        <form id="finalForm" class="final-form">
-          <label for="finalCode">Introduce el código secreto</label>
-          <input
-            id="finalCode"
-            name="finalCode"
-            type="tel"
-            inputmode="numeric"
-            maxlength="3"
-            autocomplete="one-time-code"
-            placeholder="_ _ _"
-            required
-          />
-          <button type="submit" class="btn btn--secondary">Desbloquear</button>
-        </form>
-        <p id="finalMessage" class="message" role="status"></p>
+      <section id="drink-puzzle" class="room room--drink hidden" aria-hidden="true">
+        <div class="room__content">
+          <header class="room__header">
+            <button class="room__back btn btn--ghost" data-action="back-to-map">⬅️ Volver al mapa</button>
+            <div class="room__intro">
+              <p class="room__location">Starbucks Reserve Roastery · Seattle, EUA</p>
+              <p class="room__subtitle">La barra real donde nacen los caramel macchiatos más cremosos.</p>
+            </div>
+          </header>
+          <article class="room__panel card puzzle">
+            <h2>Reto 3 · Barista por una noche</h2>
+            <p>
+              Para la fiesta 29, prepara el latte favorito de Allende.
+              Selecciona los ingredientes que necesita un <em>Caramel Macchiato</em> y
+              sirve la bebida perfecta.
+            </p>
+            <form id="drinkForm" class="drink-form">
+              <fieldset>
+                <legend>Elige tus ingredientes</legend>
+                <label class="pill">
+                  <input type="checkbox" name="ingredient" value="espresso" />
+                  <span>Espresso</span>
+                </label>
+                <label class="pill">
+                  <input type="checkbox" name="ingredient" value="leche" />
+                  <span>Leche vaporizada</span>
+                </label>
+                <label class="pill">
+                  <input type="checkbox" name="ingredient" value="caramelo" />
+                  <span>Jarabe de caramelo</span>
+                </label>
+                <label class="pill">
+                  <input type="checkbox" name="ingredient" value="crema" />
+                  <span>Crema batida</span>
+                </label>
+                <label class="pill">
+                  <input type="checkbox" name="ingredient" value="matcha" />
+                  <span>Matcha</span>
+                </label>
+                <label class="pill">
+                  <input type="checkbox" name="ingredient" value="chocolate" />
+                  <span>Chocolate</span>
+                </label>
+                <label class="pill">
+                  <input type="checkbox" name="ingredient" value="hielo" />
+                  <span>Hielo</span>
+                </label>
+              </fieldset>
+              <button type="submit" class="btn btn--primary">Servir bebida</button>
+            </form>
+            <p id="drinkMessage" class="message" role="status"></p>
+          </article>
+        </div>
+      </section>
+
+      <section id="final-lock" class="room room--final hidden" aria-hidden="true">
+        <div class="room__content">
+          <header class="room__header">
+            <button class="room__back btn btn--ghost" data-action="back-to-map">⬅️ Volver al mapa</button>
+            <div class="room__intro">
+              <p class="room__location">Terraza Reforma 180 · Ciudad de México</p>
+              <p class="room__subtitle">Una azotea real con vista al Ángel lista para el brindis final.</p>
+            </div>
+          </header>
+          <article class="room__panel card puzzle">
+            <h2>Reto final · Código 29</h2>
+            <p>
+              Combina los tres números mágicos de los retos anteriores para desbloquear
+              el regalo digital. <strong>Tip:</strong> ordénalos tal como viviste los
+              desafíos.
+            </p>
+            <form id="finalForm" class="final-form">
+              <label for="finalCode">Introduce el código secreto</label>
+              <input
+                id="finalCode"
+                name="finalCode"
+                type="tel"
+                inputmode="numeric"
+                maxlength="3"
+                autocomplete="one-time-code"
+                placeholder="_ _ _"
+                required
+              />
+              <button type="submit" class="btn btn--secondary">Desbloquear</button>
+            </form>
+            <p id="finalMessage" class="message" role="status"></p>
+          </article>
+        </div>
       </section>
 
       <section id="celebration" class="card celebration hidden" aria-hidden="true">
@@ -203,6 +309,9 @@
           Guarda esta app en tu pantalla de inicio y vuelve cuando quieras un boost
           de cariño. ¡Feliz cumpleaños 29!
         </p>
+        <button id="replayMap" class="btn btn--ghost celebration__replay">
+          Explorar habitaciones de nuevo
+        </button>
       </section>
     </main>
 
