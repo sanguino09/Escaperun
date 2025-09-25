@@ -1,378 +1,421 @@
+const CODE_VALUES = {
+  diary: "7",
+  chest: "4",
+  window: "2",
+};
+
+const CODE_ORDER = ["diary", "chest", "window"];
+const FINAL_CODE = CODE_ORDER.map((key) => CODE_VALUES[key]).join("");
+
 const state = {
-  kittyWord: "",
-  currentRoom: null,
-  solved: {
-    kitty: false,
-    travel: false,
-    drink: false,
-    final: false,
+  started: false,
+  found: {
+    diary: false,
+    chest: false,
+    window: false,
   },
-  digits: {
-    kitty: "2",
-    travel: "9",
-    drink: "0",
+  sequence: [],
+  toggles: {
+    lights: true,
+    blind: false,
+    music: false,
   },
+  victory: false,
+  currentModal: null,
+  previousFocus: null,
 };
 
-const stepsOrder = ["kitty", "travel", "drink", "final"];
-
-const sections = {
-  intro: document.getElementById("intro"),
-  map: document.getElementById("missionMap"),
-  kitty: document.getElementById("kitty-puzzle"),
-  travel: document.getElementById("travel-puzzle"),
-  drink: document.getElementById("drink-puzzle"),
-  final: document.getElementById("final-lock"),
-  celebration: document.getElementById("celebration"),
+const elements = {
+  introScreen: document.getElementById("introScreen"),
+  enterRoom: document.getElementById("enterRoom"),
+  game: document.getElementById("game"),
+  hudNote: document.getElementById("hudNote"),
+  doorStatus: document.getElementById("doorStatus"),
+  doorFeedback: document.getElementById("doorFeedback"),
+  doorCode: document.getElementById("doorCode"),
+  doorForm: document.getElementById("doorForm"),
+  doorButton: document.querySelector("#doorForm button[type='submit']"),
+  sequenceProgress: document.getElementById("sequenceProgress"),
+  chestFeedback: document.getElementById("chestFeedback"),
+  sequenceReset: document.getElementById("sequenceReset"),
+  diaryForm: document.getElementById("diaryForm"),
+  diaryFeedback: document.getElementById("diaryFeedback"),
+  windowFeedback: document.getElementById("windowFeedback"),
+  toggleCheck: document.getElementById("toggleCheck"),
+  doorFeedbackContainer: document.getElementById("doorFeedback"),
+  replay: document.getElementById("replay"),
 };
 
-const progressMap = stepsOrder.reduce((acc, step) => {
-  const element = document.querySelector(`[data-step="${step}"]`);
-  if (element) acc[step] = element;
+elements.numberSlots = CODE_ORDER.reduce((acc, key) => {
+  const span = document.querySelector(`[data-number="${key}"]`);
+  if (span) acc[key] = span;
   return acc;
 }, {});
 
-const mapNodes = stepsOrder.reduce((acc, step) => {
-  const node = document.querySelector(`.map__node[data-room="${step}"]`);
-  if (node) acc[step] = node;
-  return acc;
-}, {});
+elements.codeSlots = Array.from(document.querySelectorAll("[data-slot]"));
 
-const kittyDisplay = document.getElementById("kittyDisplay");
-const kittyMessage = document.getElementById("kittyMessage");
-const kittyReset = document.getElementById("kittyReset");
-const travelMessage = document.getElementById("travelMessage");
-const drinkMessage = document.getElementById("drinkMessage");
-const finalMessage = document.getElementById("finalMessage");
-const finalCodeInput = document.getElementById("finalCode");
+elements.modals = {
+  diary: document.getElementById("modal-diary"),
+  chest: document.getElementById("modal-chest"),
+  window: document.getElementById("modal-window"),
+  door: document.getElementById("modal-door"),
+  victory: document.getElementById("modal-victory"),
+};
 
-function revealSection(key, options = {}) {
-  const section = sections[key];
-  if (!section) return;
-  section.classList.remove("hidden");
-  section.setAttribute("aria-hidden", "false");
-  if (!options.skipScroll) {
-    section.scrollIntoView({ behavior: "smooth", block: "center" });
+elements.sequenceButtons = Array.from(
+  document.querySelectorAll(".sequence__token[data-symbol]")
+);
+
+elements.toggleButtons = Array.from(
+  document.querySelectorAll(".toggle[data-toggle]")
+);
+
+function updateHudNote(text) {
+  if (text) {
+    elements.hudNote.textContent = text;
   }
 }
 
-function hideSection(key) {
-  const section = sections[key];
-  if (!section) return;
-  section.classList.add("hidden");
-  section.setAttribute("aria-hidden", "true");
+function updateCodeDisplay() {
+  CODE_ORDER.forEach((key, index) => {
+    const slot = elements.codeSlots[index];
+    if (!slot) return;
+    slot.textContent = state.found[key] ? CODE_VALUES[key] : "_";
+  });
 }
 
-function setRoomStatus(step, text) {
-  const node = mapNodes[step];
-  if (!node) return;
-  const status = node.querySelector(".map__status");
-  if (status) status.textContent = text;
+function markClueSolved(key, noteText) {
+  if (state.found[key]) return;
+  state.found[key] = true;
+  const listItem = document.querySelector(`[data-clue="${key}"]`);
+  listItem?.classList.add("found");
+  const numberSpan = elements.numberSlots[key];
+  if (numberSpan) numberSpan.textContent = CODE_VALUES[key];
+  updateCodeDisplay();
+  if (noteText) {
+    updateHudNote(noteText);
+  }
+  if (CODE_ORDER.every((clue) => state.found[clue])) {
+    updateHudNote("Ya tienes los tres números. Ve a la puerta e introdúcelos.");
+  }
+  updateDoorStatus();
 }
 
-function markRoomComplete(step) {
-  const node = mapNodes[step];
-  if (!node) return;
-  node.classList.add("map__node--complete");
-  node.classList.remove("map__node--available");
-  setRoomStatus(step, "Completada");
-}
-
-function unlockRoom(step) {
-  const node = mapNodes[step];
-  if (!node) return;
-  node.disabled = false;
-  node.classList.add("map__node--available");
-  node.classList.remove("map__node--locked");
-  node.setAttribute("aria-disabled", "false");
-  setRoomStatus(step, "Disponible");
-}
-
-function highlightRoom(step) {
-  const node = mapNodes[step];
-  if (!node) return;
-  node.classList.add("map__node--pulse");
+function startGame() {
+  if (state.started) return;
+  state.started = true;
+  elements.introScreen.classList.add("hidden");
+  elements.game.dataset.started = "true";
+  elements.game.setAttribute("aria-hidden", "false");
+  updateHudNote("Explora la habitación tocando los puntos iluminados.");
   setTimeout(() => {
-    node.classList.remove("map__node--pulse");
-  }, 1200);
+    elements.game.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, 300);
 }
 
-function updateProgress(completedStep) {
-  const element = progressMap[completedStep];
-  if (element) {
-    element.classList.add("completed");
-    element.classList.remove("active");
-  }
-  markRoomComplete(completedStep);
-  const currentIndex = stepsOrder.indexOf(completedStep);
-  const nextStep = stepsOrder[currentIndex + 1];
-  if (nextStep && progressMap[nextStep]) {
-    progressMap[nextStep].classList.add("active");
-  }
-  if (nextStep) {
-    unlockRoom(nextStep);
-    highlightRoom(nextStep);
-  }
-}
-
-function focusFirstInteractive(sectionKey) {
-  const section = sections[sectionKey];
-  if (!section) return;
-  const focusable = section.querySelector(
+function openModal(key) {
+  const modal = elements.modals[key];
+  if (!modal) return;
+  if (state.currentModal === modal) return;
+  closeModal();
+  state.previousFocus = document.activeElement;
+  modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden", "false");
+  state.currentModal = modal;
+  const focusable = modal.querySelector(
     "button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])"
   );
   focusable?.focus({ preventScroll: true });
-}
-
-function enterRoom(step) {
-  const node = mapNodes[step];
-  if (!node || node.disabled) return;
-  hideSection("map");
-  revealSection(step);
-  state.currentRoom = step;
-  Object.values(mapNodes).forEach((item) => item?.classList.remove("map__node--active"));
-  node.classList.add("map__node--active");
-  if (!state.solved[step]) {
-    setRoomStatus(step, "En juego");
-  }
-  focusFirstInteractive(step);
-}
-
-function showMap(focusStep) {
-  if (state.currentRoom && sections[state.currentRoom]) {
-    hideSection(state.currentRoom);
-    if (!state.solved[state.currentRoom]) {
-      setRoomStatus(state.currentRoom, "Disponible");
-    }
-  }
-  Object.values(mapNodes).forEach((item) => item?.classList.remove("map__node--active"));
-  revealSection("map");
-  state.currentRoom = null;
-  if (focusStep && mapNodes[focusStep]) {
-    mapNodes[focusStep].focus({ preventScroll: true });
-    highlightRoom(focusStep);
+  if (key === "door") {
+    updateDoorStatus();
   }
 }
 
-function resetKittyWord() {
-  state.kittyWord = "";
-  kittyDisplay.textContent = "";
-  document.querySelectorAll(".kitty-sticker").forEach((btn) => {
-    btn.classList.remove("selected");
-  });
+function closeModal() {
+  if (!state.currentModal) return;
+  state.currentModal.classList.add("hidden");
+  state.currentModal.setAttribute("aria-hidden", "true");
+  state.currentModal = null;
+  if (state.previousFocus instanceof HTMLElement) {
+    state.previousFocus.focus({ preventScroll: true });
+  }
+  state.previousFocus = null;
 }
 
-function handleKittyStickerClick(event) {
-  if (state.solved.kitty) return;
-  const button = event.currentTarget;
-  button.classList.add("selected");
-  const letter = button.dataset.letter;
-  state.kittyWord += letter;
-  kittyDisplay.textContent = state.kittyWord;
-
-  if (state.kittyWord.length === 5) {
-    const attempt = state.kittyWord.toLowerCase();
-    if (attempt === "kitty") {
-      state.solved.kitty = true;
-      kittyMessage.textContent = `¡Perfecto! Primer número: ${state.digits.kitty}. Vuelve al mapa para seguir explorando.`;
-      updateProgress("kitty");
-      setTimeout(() => {
-        showMap("travel");
-      }, 700);
-    } else {
-      kittyMessage.textContent = "Casi... prueba otra combinación con estilo.";
-      setTimeout(() => {
-        resetKittyWord();
-      }, 600);
-    }
+function updateDoorStatus() {
+  const allFound = CODE_ORDER.every((clue) => state.found[clue]);
+  if (state.victory) {
+    elements.doorStatus.textContent = "La puerta ya está abierta. Puedes volver a la fiesta.";
+    elements.doorCode.disabled = true;
+    elements.doorButton.disabled = true;
+    return;
+  }
+  if (!allFound) {
+    elements.doorStatus.textContent =
+      "Todavía faltan números. Explora la habitación hasta encontrar los tres códigos.";
+    elements.doorCode.value = "";
+    elements.doorCode.disabled = true;
+    elements.doorButton.disabled = true;
   } else {
-    kittyMessage.textContent = "Sigue tocando los stickers para completar la palabra.";
+    elements.doorStatus.textContent =
+      "Introduce los tres números en el orden en el que los descubriste.";
+    elements.doorCode.disabled = false;
+    elements.doorButton.disabled = false;
   }
+  elements.doorFeedback.textContent = "";
 }
 
-function setupKittyPuzzle() {
-  document.querySelectorAll(".kitty-sticker").forEach((btn) => {
-    btn.addEventListener("click", handleKittyStickerClick);
-  });
-  kittyReset.addEventListener("click", () => {
-    resetKittyWord();
-    kittyMessage.textContent = "¡Reiniciado! Intenta conseguir el lazo correcto.";
+function resetSequence(reactivate = true) {
+  state.sequence = [];
+  elements.sequenceProgress.textContent = "Orden actual: —";
+  elements.sequenceButtons.forEach((btn) => {
+    btn.classList.remove("active");
+    if (reactivate && !state.found.chest) {
+      btn.disabled = false;
+    }
   });
 }
 
-function handleDestinationClick(event) {
-  if (state.solved.travel) return;
+function formatSequence(sequence) {
+  const labels = {
+    cat: "Gato",
+    plane: "Avión",
+    coffee: "Café",
+    camera: "Cámara",
+  };
+  return sequence.length ? sequence.map((key) => labels[key] ?? key).join(" · ") : "—";
+}
+
+function handleSequenceClick(event) {
+  if (state.found.chest) return;
   const button = event.currentTarget;
-  const key = button.dataset.key;
-
-  document.querySelectorAll(".destination-card").forEach((card) => {
-    card.classList.remove("incorrect");
-  });
-
-  if (key === "tokyo") {
-    state.solved.travel = true;
-    button.classList.add("correct");
-    travelMessage.textContent = `¡Destino correcto! Segundo número: ${state.digits.travel}. Vuelve al mapa para planear el siguiente viaje.`;
-    updateProgress("travel");
-    document.querySelectorAll(".destination-card").forEach((card) => {
-      card.disabled = true;
+  const symbol = button.dataset.symbol;
+  state.sequence.push(symbol);
+  button.classList.add("active");
+  elements.sequenceProgress.textContent = `Orden actual: ${formatSequence(state.sequence)}`;
+  if (state.sequence.length === 3) {
+    elements.sequenceButtons.forEach((btn) => {
+      btn.disabled = true;
     });
-    setTimeout(() => {
-      showMap("drink");
-    }, 700);
-  } else {
-    button.classList.add("incorrect");
-    travelMessage.textContent = "No exactamente... piensa en el universo alegre de Sanrio.";
+    const goal = ["cat", "plane", "coffee"];
+    const success = goal.every((item, index) => state.sequence[index] === item);
+    if (success) {
+      elements.chestFeedback.textContent = `¡Perfecto! El número revelado es ${CODE_VALUES.chest}.`;
+      markClueSolved(
+        "chest",
+        "El baúl mostró el número secreto que esperabas para tu próximo viaje."
+      );
+    } else {
+      elements.chestFeedback.textContent = "La secuencia no coincide. El baúl se reinicia.";
+      setTimeout(() => {
+        elements.chestFeedback.textContent = "";
+        resetSequence();
+      }, 900);
+    }
   }
 }
 
-function setupTravelPuzzle() {
-  document.querySelectorAll(".destination-card").forEach((card) => {
-    card.addEventListener("click", handleDestinationClick);
-  });
+function handleSequenceReset() {
+  if (state.found.chest) return;
+  elements.chestFeedback.textContent = "";
+  resetSequence();
 }
 
-function handleDrinkSubmit(event) {
+function handleDiarySubmit(event) {
   event.preventDefault();
-  if (state.solved.drink) return;
-
-  const formData = new FormData(event.target);
-  const selected = formData.getAll("ingredient");
-  const required = ["espresso", "leche", "caramelo"];
-  const optional = ["hielo", "crema"];
-
-  const hasAllRequired = required.every((item) => selected.includes(item));
-  const hasOnlyAllowed = selected.every((item) =>
-    required.includes(item) || optional.includes(item)
-  );
-
-  if (hasAllRequired && hasOnlyAllowed) {
-    state.solved.drink = true;
-    drinkMessage.textContent = `¡Barista estrella! Tercer número: ${state.digits.drink}. Regresa al mapa para subir a la terraza final.`;
-    updateProgress("drink");
-    event.target.querySelectorAll("input[type='checkbox']").forEach((input) => {
+  if (state.found.diary) return;
+  const formData = new FormData(elements.diaryForm);
+  const answer = formData.get("diaryAnswer");
+  if (!answer) {
+    elements.diaryFeedback.textContent = "El cuaderno espera una respuesta.";
+    return;
+  }
+  if (answer === "tokio") {
+    elements.diaryFeedback.textContent = `Tokio abre el cuaderno. Apunta el número ${CODE_VALUES.diary}.`;
+    markClueSolved(
+      "diary",
+      "El cuaderno confirma que Tokio guarda el primer número de la cerradura."
+    );
+    elements.diaryForm.querySelectorAll("input").forEach((input) => {
       input.disabled = true;
     });
-    setTimeout(() => {
-      showMap("final");
-    }, 700);
+    elements.diaryForm.querySelector("button[type='submit']").disabled = true;
   } else {
-    drinkMessage.textContent = "Mmm... esa mezcla no sabe a Caramel Macchiato. Intenta de nuevo.";
+    elements.diaryFeedback.textContent = "Ese no fue el primer destino. Busca otra pista en las páginas.";
   }
 }
 
-function setupDrinkPuzzle() {
-  const form = document.getElementById("drinkForm");
-  form.addEventListener("submit", handleDrinkSubmit);
+function setToggleState(button, isOn) {
+  const span = button.querySelector("span");
+  const key = button.dataset.toggle;
+  button.setAttribute("aria-pressed", isOn ? "true" : "false");
+  if (span) {
+    const labels = {
+      lights: isOn ? "Encendidas" : "Apagadas",
+      blind: isOn ? "Entreabierta" : "Cerrada",
+      music: isOn ? "Girando" : "Detenido",
+    };
+    span.textContent = labels[key];
+  }
 }
 
-function handleFinalSubmit(event) {
+function handleToggleClick(event) {
+  if (state.found.window) return;
+  const button = event.currentTarget;
+  const key = button.dataset.toggle;
+  const nextValue = !state.toggles[key];
+  state.toggles[key] = nextValue;
+  setToggleState(button, nextValue);
+}
+
+function handleToggleCheck() {
+  if (state.found.window) return;
+  const desired = {
+    lights: false,
+    blind: true,
+    music: true,
+  };
+  const matches = Object.entries(desired).every(([key, value]) => state.toggles[key] === value);
+  if (matches) {
+    elements.windowFeedback.textContent = `El reflejo revela el número ${CODE_VALUES.window}.`;
+    markClueSolved(
+      "window",
+      "La ventana nocturna deja ver el último número con luces vibrantes."
+    );
+    elements.toggleButtons.forEach((button) => {
+      button.disabled = true;
+    });
+    elements.toggleCheck.disabled = true;
+  } else {
+    elements.windowFeedback.textContent = "Algo no encaja aún. Ajusta el ambiente otra vez.";
+  }
+}
+
+function handleDoorSubmit(event) {
   event.preventDefault();
-  if (state.solved.final) return;
-
-  const value = finalCodeInput.value.replace(/\D/g, "");
-  const expected = `${state.digits.kitty}${state.digits.travel}${state.digits.drink}`;
-
-  if (value === expected) {
-    state.solved.final = true;
-    finalMessage.textContent = "¡Código correcto!";
-    updateProgress("final");
-    hideSection("final");
-    revealSection("celebration");
-    state.currentRoom = "celebration";
-    Object.values(mapNodes).forEach((item) => item?.classList.remove("map__node--active"));
-    finalCodeInput.disabled = true;
-    event.target.querySelector("button").disabled = true;
-    launchConfetti();
-    if (navigator.vibrate) {
-      navigator.vibrate([120, 60, 120]);
-    }
+  if (!CODE_ORDER.every((clue) => state.found[clue])) {
+    elements.doorFeedback.textContent = "Necesitas los tres números antes de intentarlo.";
+    return;
+  }
+  const code = elements.doorCode.value.trim();
+  if (code === FINAL_CODE) {
+    elements.doorFeedback.textContent = "La cerradura gira y escuchas la música del festejo.";
+    state.victory = true;
+    updateDoorStatus();
+    setTimeout(() => {
+      openModal("victory");
+    }, 400);
   } else {
-    finalMessage.textContent = "El código no abre el candado. Revisa los números mágicos.";
+    elements.doorFeedback.textContent = "Ese código no abre la puerta. Prueba combinando los números encontrados.";
   }
 }
 
-function setupFinalPuzzle() {
-  const form = document.getElementById("finalForm");
-  form.addEventListener("submit", handleFinalSubmit);
+function handleReplay() {
+  closeModal();
+  resetGame(true);
 }
 
-function handleMapNodeClick(event) {
-  const step = event.currentTarget.dataset.room;
-  enterRoom(step);
-}
-
-function setupMapNavigation() {
-  Object.values(mapNodes).forEach((node) => {
-    if (!node) return;
-    node.classList.add("map__node--locked");
-    node.setAttribute("aria-disabled", "true");
-    node.addEventListener("click", handleMapNodeClick);
+function resetToggles() {
+  state.toggles = {
+    lights: true,
+    blind: false,
+    music: false,
+  };
+  elements.toggleButtons.forEach((button) => {
+    button.disabled = false;
+    const key = button.dataset.toggle;
+    setToggleState(button, state.toggles[key]);
   });
-  document
-    .querySelectorAll('[data-action="back-to-map"]')
-    .forEach((button) => {
-      button.addEventListener("click", () => {
-        showMap();
-      });
-    });
+  elements.toggleCheck.disabled = false;
+  elements.windowFeedback.textContent = "";
 }
 
-function launchConfetti() {
-  const colors = ["#5a1033", "#b31c52", "#2a8c82", "#f5c16c", "#3e2d68"];
-  const pieces = 80;
-
-  for (let i = 0; i < pieces; i += 1) {
-    const piece = document.createElement("div");
-    piece.className = "confetti";
-    piece.style.left = `${Math.random() * 100}vw`;
-    piece.style.setProperty("--x-move", `${Math.random() * 200 - 100}px`);
-    piece.style.setProperty("--rotation", `${Math.random() * 720 - 360}deg`);
-    piece.style.background = colors[i % colors.length];
-    piece.style.animationDelay = `${Math.random() * 0.5}s`;
-    document.body.appendChild(piece);
-    setTimeout(() => piece.remove(), 3200);
-  }
+function resetDiary() {
+  elements.diaryForm.reset();
+  elements.diaryForm.querySelectorAll("input").forEach((input) => {
+    input.disabled = false;
+  });
+  const submit = elements.diaryForm.querySelector("button[type='submit']");
+  if (submit) submit.disabled = false;
+  elements.diaryFeedback.textContent = "";
 }
 
-function registerServiceWorker() {
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("sw.js").catch((error) => {
-        console.warn("SW registration failed", error);
-      });
-    });
+function resetGame(resetVictory = false) {
+  state.found = {
+    diary: false,
+    chest: false,
+    window: false,
+  };
+  state.sequence = [];
+  if (resetVictory) {
+    state.victory = false;
   }
+  Object.values(elements.numberSlots).forEach((span) => {
+    span.textContent = "_";
+  });
+  document.querySelectorAll(".clue-list li").forEach((item) => {
+    item.classList.remove("found");
+  });
+  updateHudNote("Necesitas encontrar tres números antes de abrir la puerta.");
+  updateCodeDisplay();
+  resetSequence();
+  resetToggles();
+  resetDiary();
+  elements.chestFeedback.textContent = "";
+  elements.sequenceProgress.textContent = "Orden actual: —";
+  elements.windowFeedback.textContent = "";
+  elements.doorFeedback.textContent = "";
+  elements.doorForm.reset();
+  elements.doorCode.disabled = true;
+  elements.doorButton.disabled = true;
+  elements.doorStatus.textContent =
+    "Todavía faltan números. Explora la habitación hasta encontrar los tres códigos.";
+}
+
+function bindHotspots() {
+  const hotspots = document.querySelectorAll(".hotspot[data-target]");
+  hotspots.forEach((button) => {
+    button.addEventListener("click", () => {
+      const target = button.dataset.target;
+      openModal(target);
+    });
+  });
+}
+
+function bindModalClose() {
+  document.querySelectorAll("[data-action='close']").forEach((element) => {
+    element.addEventListener("click", () => {
+      closeModal();
+    });
+  });
+}
+
+function bindKeyboardClose() {
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  });
 }
 
 function init() {
-  hideSection("kitty");
-  hideSection("travel");
-  hideSection("drink");
-  hideSection("final");
-  hideSection("celebration");
-  hideSection("map");
-
-  document.getElementById("startGame").addEventListener("click", () => {
-    hideSection("intro");
-    unlockRoom("kitty");
-    showMap("kitty");
+  bindHotspots();
+  bindModalClose();
+  bindKeyboardClose();
+  resetGame();
+  elements.enterRoom.addEventListener("click", startGame);
+  elements.diaryForm.addEventListener("submit", handleDiarySubmit);
+  elements.sequenceButtons.forEach((button) => {
+    button.addEventListener("click", handleSequenceClick);
   });
-
-  const replayButton = document.getElementById("replayMap");
-  replayButton?.addEventListener("click", () => {
-    showMap("kitty");
+  elements.sequenceReset.addEventListener("click", handleSequenceReset);
+  elements.toggleButtons.forEach((button) => {
+    setToggleState(button, state.toggles[button.dataset.toggle]);
+    button.addEventListener("click", handleToggleClick);
   });
-
-  setupMapNavigation();
-  setupKittyPuzzle();
-  setupTravelPuzzle();
-  setupDrinkPuzzle();
-  setupFinalPuzzle();
-  registerServiceWorker();
-
-  kittyMessage.textContent = "Presiona los stickers para formar la palabra secreta.";
-  progressMap.kitty?.classList.add("active");
+  elements.toggleCheck.addEventListener("click", handleToggleCheck);
+  elements.doorForm.addEventListener("submit", handleDoorSubmit);
+  elements.replay.addEventListener("click", handleReplay);
 }
 
-document.addEventListener("DOMContentLoaded", init);
+init();
