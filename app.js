@@ -1,5 +1,6 @@
 const state = {
   kittyWord: "",
+  currentRoom: null,
   solved: {
     kitty: false,
     travel: false,
@@ -17,6 +18,7 @@ const stepsOrder = ["kitty", "travel", "drink", "final"];
 
 const sections = {
   intro: document.getElementById("intro"),
+  map: document.getElementById("missionMap"),
   kitty: document.getElementById("kitty-puzzle"),
   travel: document.getElementById("travel-puzzle"),
   drink: document.getElementById("drink-puzzle"),
@@ -30,6 +32,12 @@ const progressMap = stepsOrder.reduce((acc, step) => {
   return acc;
 }, {});
 
+const mapNodes = stepsOrder.reduce((acc, step) => {
+  const node = document.querySelector(`.map__node[data-room="${step}"]`);
+  if (node) acc[step] = node;
+  return acc;
+}, {});
+
 const kittyDisplay = document.getElementById("kittyDisplay");
 const kittyMessage = document.getElementById("kittyMessage");
 const kittyReset = document.getElementById("kittyReset");
@@ -38,12 +46,14 @@ const drinkMessage = document.getElementById("drinkMessage");
 const finalMessage = document.getElementById("finalMessage");
 const finalCodeInput = document.getElementById("finalCode");
 
-function revealSection(key) {
+function revealSection(key, options = {}) {
   const section = sections[key];
   if (!section) return;
   section.classList.remove("hidden");
   section.setAttribute("aria-hidden", "false");
-  section.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (!options.skipScroll) {
+    section.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 function hideSection(key) {
@@ -53,16 +63,94 @@ function hideSection(key) {
   section.setAttribute("aria-hidden", "true");
 }
 
+function setRoomStatus(step, text) {
+  const node = mapNodes[step];
+  if (!node) return;
+  const status = node.querySelector(".map__status");
+  if (status) status.textContent = text;
+}
+
+function markRoomComplete(step) {
+  const node = mapNodes[step];
+  if (!node) return;
+  node.classList.add("map__node--complete");
+  node.classList.remove("map__node--available");
+  setRoomStatus(step, "Completada");
+}
+
+function unlockRoom(step) {
+  const node = mapNodes[step];
+  if (!node) return;
+  node.disabled = false;
+  node.classList.add("map__node--available");
+  node.classList.remove("map__node--locked");
+  node.setAttribute("aria-disabled", "false");
+  setRoomStatus(step, "Disponible");
+}
+
+function highlightRoom(step) {
+  const node = mapNodes[step];
+  if (!node) return;
+  node.classList.add("map__node--pulse");
+  setTimeout(() => {
+    node.classList.remove("map__node--pulse");
+  }, 1200);
+}
+
 function updateProgress(completedStep) {
   const element = progressMap[completedStep];
   if (element) {
     element.classList.add("completed");
     element.classList.remove("active");
   }
+  markRoomComplete(completedStep);
   const currentIndex = stepsOrder.indexOf(completedStep);
   const nextStep = stepsOrder[currentIndex + 1];
   if (nextStep && progressMap[nextStep]) {
     progressMap[nextStep].classList.add("active");
+  }
+  if (nextStep) {
+    unlockRoom(nextStep);
+    highlightRoom(nextStep);
+  }
+}
+
+function focusFirstInteractive(sectionKey) {
+  const section = sections[sectionKey];
+  if (!section) return;
+  const focusable = section.querySelector(
+    "button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])"
+  );
+  focusable?.focus({ preventScroll: true });
+}
+
+function enterRoom(step) {
+  const node = mapNodes[step];
+  if (!node || node.disabled) return;
+  hideSection("map");
+  revealSection(step);
+  state.currentRoom = step;
+  Object.values(mapNodes).forEach((item) => item?.classList.remove("map__node--active"));
+  node.classList.add("map__node--active");
+  if (!state.solved[step]) {
+    setRoomStatus(step, "En juego");
+  }
+  focusFirstInteractive(step);
+}
+
+function showMap(focusStep) {
+  if (state.currentRoom && sections[state.currentRoom]) {
+    hideSection(state.currentRoom);
+    if (!state.solved[state.currentRoom]) {
+      setRoomStatus(state.currentRoom, "Disponible");
+    }
+  }
+  Object.values(mapNodes).forEach((item) => item?.classList.remove("map__node--active"));
+  revealSection("map");
+  state.currentRoom = null;
+  if (focusStep && mapNodes[focusStep]) {
+    mapNodes[focusStep].focus({ preventScroll: true });
+    highlightRoom(focusStep);
   }
 }
 
@@ -86,11 +174,11 @@ function handleKittyStickerClick(event) {
     const attempt = state.kittyWord.toLowerCase();
     if (attempt === "kitty") {
       state.solved.kitty = true;
-      kittyMessage.textContent = `¡Perfecto! Primer número: ${state.digits.kitty}`;
+      kittyMessage.textContent = `¡Perfecto! Primer número: ${state.digits.kitty}. Vuelve al mapa para seguir explorando.`;
       updateProgress("kitty");
       setTimeout(() => {
-        revealSection("travel");
-      }, 400);
+        showMap("travel");
+      }, 700);
     } else {
       kittyMessage.textContent = "Casi... prueba otra combinación con estilo.";
       setTimeout(() => {
@@ -124,14 +212,14 @@ function handleDestinationClick(event) {
   if (key === "tokyo") {
     state.solved.travel = true;
     button.classList.add("correct");
-    travelMessage.textContent = `¡Lo lograste! Segundo número: ${state.digits.travel}`;
+    travelMessage.textContent = `¡Destino correcto! Segundo número: ${state.digits.travel}. Vuelve al mapa para planear el siguiente viaje.`;
     updateProgress("travel");
     document.querySelectorAll(".destination-card").forEach((card) => {
       card.disabled = true;
     });
     setTimeout(() => {
-      revealSection("drink");
-    }, 400);
+      showMap("drink");
+    }, 700);
   } else {
     button.classList.add("incorrect");
     travelMessage.textContent = "No exactamente... piensa en el universo alegre de Sanrio.";
@@ -160,14 +248,14 @@ function handleDrinkSubmit(event) {
 
   if (hasAllRequired && hasOnlyAllowed) {
     state.solved.drink = true;
-    drinkMessage.textContent = `¡Barista estrella! Tercer número: ${state.digits.drink}`;
+    drinkMessage.textContent = `¡Barista estrella! Tercer número: ${state.digits.drink}. Regresa al mapa para subir a la terraza final.`;
     updateProgress("drink");
     event.target.querySelectorAll("input[type='checkbox']").forEach((input) => {
       input.disabled = true;
     });
     setTimeout(() => {
-      revealSection("final");
-    }, 400);
+      showMap("final");
+    }, 700);
   } else {
     drinkMessage.textContent = "Mmm... esa mezcla no sabe a Caramel Macchiato. Intenta de nuevo.";
   }
@@ -189,7 +277,10 @@ function handleFinalSubmit(event) {
     state.solved.final = true;
     finalMessage.textContent = "¡Código correcto!";
     updateProgress("final");
+    hideSection("final");
     revealSection("celebration");
+    state.currentRoom = "celebration";
+    Object.values(mapNodes).forEach((item) => item?.classList.remove("map__node--active"));
     finalCodeInput.disabled = true;
     event.target.querySelector("button").disabled = true;
     launchConfetti();
@@ -204,6 +295,27 @@ function handleFinalSubmit(event) {
 function setupFinalPuzzle() {
   const form = document.getElementById("finalForm");
   form.addEventListener("submit", handleFinalSubmit);
+}
+
+function handleMapNodeClick(event) {
+  const step = event.currentTarget.dataset.room;
+  enterRoom(step);
+}
+
+function setupMapNavigation() {
+  Object.values(mapNodes).forEach((node) => {
+    if (!node) return;
+    node.classList.add("map__node--locked");
+    node.setAttribute("aria-disabled", "true");
+    node.addEventListener("click", handleMapNodeClick);
+  });
+  document
+    .querySelectorAll('[data-action="back-to-map"]')
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        showMap();
+      });
+    });
 }
 
 function launchConfetti() {
@@ -239,12 +351,20 @@ function init() {
   hideSection("drink");
   hideSection("final");
   hideSection("celebration");
+  hideSection("map");
 
   document.getElementById("startGame").addEventListener("click", () => {
     hideSection("intro");
-    revealSection("kitty");
+    unlockRoom("kitty");
+    showMap("kitty");
   });
 
+  const replayButton = document.getElementById("replayMap");
+  replayButton?.addEventListener("click", () => {
+    showMap("kitty");
+  });
+
+  setupMapNavigation();
   setupKittyPuzzle();
   setupTravelPuzzle();
   setupDrinkPuzzle();
