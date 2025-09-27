@@ -7,6 +7,38 @@ const CODE_VALUES = {
 const CODE_ORDER = ["diary", "chest", "window"];
 const FINAL_CODE = CODE_ORDER.map((key) => CODE_VALUES[key]).join("");
 
+const ROOMS = [
+  {
+    key: "estudio",
+    note: "El estudio está cubierto de mapas. Explora los puntos brillantes y encuentra la pista escondida en el cuaderno.",
+  },
+  {
+    key: "vestidor",
+    note: "El vestidor de viajes resplandece con neón. Busca el baúl magnético y activa tu secuencia favorita.",
+  },
+  {
+    key: "mirador",
+    note: "El mirador nocturno muestra la ciudad. Ajusta el ambiente junto a la ventana antes de abrir la puerta final.",
+  },
+];
+
+const TRAVELS = {
+  gallery: {
+    requirement: "diary",
+    to: "vestidor",
+    lockedText: "Primero descifra el cuaderno para recordar la palabra clave.",
+    unlockedText: "La palabra de Tokio desbloquea la puerta corredera. Pulsa para cruzar.",
+    note: "Cruzas al vestidor iluminado por luces rosa, listo para abrir el baúl secreto.",
+  },
+  terrace: {
+    requirement: "chest",
+    to: "mirador",
+    lockedText: "Completa la secuencia de imanes para activar el mecanismo.",
+    unlockedText: "Los imanes encajan y la escalera se ilumina. Sube al mirador.",
+    note: "Subes al mirador donde la ciudad brilla; busca la ventana y la puerta blindada.",
+  },
+};
+
 const state = {
   started: false,
   found: {
@@ -23,12 +55,18 @@ const state = {
   victory: false,
   currentModal: null,
   previousFocus: null,
+  room: ROOMS[0].key,
+  travelUnlocked: {
+    gallery: false,
+    terrace: false,
+  },
 };
 
 const elements = {
   introScreen: document.getElementById("introScreen"),
   enterRoom: document.getElementById("enterRoom"),
   game: document.getElementById("game"),
+  room: document.getElementById("roomStage"),
   hudNote: document.getElementById("hudNote"),
   doorStatus: document.getElementById("doorStatus"),
   doorFeedback: document.getElementById("doorFeedback"),
@@ -44,6 +82,10 @@ const elements = {
   toggleCheck: document.getElementById("toggleCheck"),
   doorFeedbackContainer: document.getElementById("doorFeedback"),
   replay: document.getElementById("replay"),
+  travelStatus: {
+    gallery: document.getElementById("galleryStatus"),
+    terrace: document.getElementById("terraceStatus"),
+  },
 };
 
 elements.numberSlots = CODE_ORDER.reduce((acc, key) => {
@@ -60,6 +102,8 @@ elements.modals = {
   window: document.getElementById("modal-window"),
   door: document.getElementById("modal-door"),
   victory: document.getElementById("modal-victory"),
+  gallery: document.getElementById("modal-gallery"),
+  terrace: document.getElementById("modal-terrace"),
 };
 
 elements.sequenceButtons = Array.from(
@@ -69,6 +113,74 @@ elements.sequenceButtons = Array.from(
 elements.toggleButtons = Array.from(
   document.querySelectorAll(".toggle[data-toggle]")
 );
+
+elements.travelButtons = {
+  gallery: document.querySelector('[data-travel="gallery"]'),
+  terrace: document.querySelector('[data-travel="terrace"]'),
+};
+
+elements.hotspots = Array.from(document.querySelectorAll(".hotspot[data-target]"));
+
+function findRoom(key) {
+  return ROOMS.find((room) => room.key === key);
+}
+
+function updateHotspotsForRoom() {
+  elements.hotspots.forEach((hotspot) => {
+    const { room: rooms } = hotspot.dataset;
+    const allowedRooms = rooms ? rooms.split(/\s+/) : [];
+    const isVisible = !rooms || allowedRooms.includes(state.room);
+    if (isVisible) {
+      hotspot.removeAttribute("hidden");
+    } else {
+      hotspot.setAttribute("hidden", "");
+    }
+  });
+}
+
+function setRoom(key, { updateNote = false, note } = {}) {
+  const roomInfo = findRoom(key);
+  if (!roomInfo) return;
+  state.room = roomInfo.key;
+  if (elements.room) {
+    elements.room.setAttribute("data-room", state.room);
+  }
+  updateHotspotsForRoom();
+  const nextNote = note ?? roomInfo.note;
+  if (updateNote && nextNote) {
+    updateHudNote(nextNote);
+  }
+}
+
+function setTravelState(key, unlocked) {
+  const travel = TRAVELS[key];
+  if (!travel) return;
+  state.travelUnlocked[key] = unlocked;
+  const button = elements.travelButtons[key];
+  const status = elements.travelStatus[key];
+  if (button) {
+    button.disabled = !unlocked;
+  }
+  if (status) {
+    status.textContent = unlocked ? travel.unlockedText : travel.lockedText;
+    status.classList.toggle("modal__status--active", unlocked);
+  }
+}
+
+function handleTravel(event) {
+  const button = event.currentTarget;
+  const key = button?.dataset.travel;
+  if (!key || !TRAVELS[key]) {
+    return;
+  }
+  if (!state.travelUnlocked[key]) {
+    setTravelState(key, false);
+    return;
+  }
+  const travel = TRAVELS[key];
+  setRoom(travel.to, { updateNote: true, note: travel.note });
+  closeModal();
+}
 
 function updateHudNote(text) {
   if (text) {
@@ -99,6 +211,11 @@ function markClueSolved(key, noteText) {
     updateHudNote("Ya tienes los tres números. Ve a la puerta e introdúcelos.");
   }
   updateDoorStatus();
+  Object.entries(TRAVELS).forEach(([travelKey, travel]) => {
+    if (travel.requirement === key) {
+      setTravelState(travelKey, true);
+    }
+  });
 }
 
 function startGame() {
@@ -107,7 +224,7 @@ function startGame() {
   elements.introScreen.classList.add("hidden");
   elements.game.dataset.started = "true";
   elements.game.setAttribute("aria-hidden", "false");
-  updateHudNote("Explora la habitación tocando los puntos iluminados.");
+  setRoom(state.room, { updateNote: true });
   setTimeout(() => {
     elements.game.scrollIntoView({ behavior: "smooth", block: "center" });
   }, 300);
@@ -203,7 +320,7 @@ function handleSequenceClick(event) {
       elements.chestFeedback.textContent = `¡Perfecto! El número revelado es ${CODE_VALUES.chest}.`;
       markClueSolved(
         "chest",
-        "El baúl mostró el número secreto que esperabas para tu próximo viaje."
+        "El baúl mostró el número secreto que esperabas para tu próximo viaje. La escalera al mirador enciende sus luces para que avances."
       );
     } else {
       elements.chestFeedback.textContent = "La secuencia no coincide. El baúl se reinicia.";
@@ -234,7 +351,7 @@ function handleDiarySubmit(event) {
     elements.diaryFeedback.textContent = `Tokio abre el cuaderno. Apunta el número ${CODE_VALUES.diary}.`;
     markClueSolved(
       "diary",
-      "El cuaderno confirma que Tokio guarda el primer número de la cerradura."
+      "El cuaderno confirma que Tokio guarda el primer número de la cerradura. El pasillo lateral se desliza y revela el vestidor iluminado."
     );
     elements.diaryForm.querySelectorAll("input").forEach((input) => {
       input.disabled = true;
@@ -280,7 +397,7 @@ function handleToggleCheck() {
     elements.windowFeedback.textContent = `El reflejo revela el número ${CODE_VALUES.window}.`;
     markClueSolved(
       "window",
-      "La ventana nocturna deja ver el último número con luces vibrantes."
+      "La ventana nocturna deja ver el último número con luces vibrantes. La puerta blindada te espera al borde del mirador."
     );
     elements.toggleButtons.forEach((button) => {
       button.disabled = true;
@@ -350,6 +467,10 @@ function resetGame(resetVictory = false) {
   if (resetVictory) {
     state.victory = false;
   }
+  setRoom(ROOMS[0].key, { updateNote: false });
+  Object.keys(TRAVELS).forEach((key) => {
+    setTravelState(key, false);
+  });
   Object.values(elements.numberSlots).forEach((span) => {
     span.textContent = "_";
   });
@@ -416,6 +537,10 @@ function init() {
   elements.toggleCheck.addEventListener("click", handleToggleCheck);
   elements.doorForm.addEventListener("submit", handleDoorSubmit);
   elements.replay.addEventListener("click", handleReplay);
+  Object.entries(elements.travelButtons).forEach(([key, button]) => {
+    if (!button) return;
+    button.addEventListener("click", handleTravel);
+  });
 }
 
 init();
