@@ -60,16 +60,58 @@
             <span class="clue-list__name">Ventana nocturna</span>
             <span class="clue-list__number" data-number="window">_</span>
           </li>
+          <li data-clue="bookshelf">
+            <span class="clue-list__icon" aria-hidden="true">📚</span>
+            <span class="clue-list__name">Estantería oculta</span>
+            <span class="clue-list__number" data-number="bookshelf">_</span>
+          </li>
+          <li data-clue="archive">
+            <span class="clue-list__icon" aria-hidden="true">🗃️</span>
+            <span class="clue-list__name">Archivo clasificado</span>
+            <span class="clue-list__number" data-number="archive">_</span>
+          </li>
+          <li data-clue="laboratory">
+            <span class="clue-list__icon" aria-hidden="true">🧪</span>
+            <span class="clue-list__name">Laboratorio lumínico</span>
+            <span class="clue-list__number" data-number="laboratory">_</span>
+          </li>
+          <li data-clue="observatory">
+            <span class="clue-list__icon" aria-hidden="true">🔭</span>
+            <span class="clue-list__name">Planetario privado</span>
+            <span class="clue-list__number" data-number="observatory">_</span>
+          </li>
+          <li data-clue="radio">
+            <span class="clue-list__icon" aria-hidden="true">📻</span>
+            <span class="clue-list__name">Cabina de radio</span>
+            <span class="clue-list__number" data-number="radio">_</span>
+          </li>
+          <li data-clue="greenhouse">
+            <span class="clue-list__icon" aria-hidden="true">🌿</span>
+            <span class="clue-list__name">Invernadero violeta</span>
+            <span class="clue-list__number" data-number="greenhouse">_</span>
+          </li>
+          <li data-clue="musicbox">
+            <span class="clue-list__icon" aria-hidden="true">🎶</span>
+            <span class="clue-list__name">Caja musical</span>
+            <span class="clue-list__number" data-number="musicbox">_</span>
+          </li>
         </ul>
         <div class="hud__code" aria-live="polite">
           Código final:
           <span data-slot="0">_</span>
           <span data-slot="1">_</span>
           <span data-slot="2">_</span>
+          <span data-slot="3">_</span>
+          <span data-slot="4">_</span>
+          <span data-slot="5">_</span>
+          <span data-slot="6">_</span>
+          <span data-slot="7">_</span>
+          <span data-slot="8">_</span>
+          <span data-slot="9">_</span>
         </div>
         <div class="hud__notes">
           <h3>Notas</h3>
-          <p id="hudNote">Necesitas encontrar tres números antes de abrir la puerta.</p>
+          <p id="hudNote">Necesitas encontrar diez números antes de abrir la puerta.</p>
         </div>
       </aside>
 
@@ -106,7 +148,7 @@
           type="button"
           class="hotspot hotspot--door"
           data-target="door"
-          data-room="mirador"
+          data-room="lounge"
           aria-label="Intentar abrir la puerta"
         >
           Puerta
@@ -128,6 +170,132 @@
           aria-label="Subir al mirador"
         >
           Mirador
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--library"
+          data-target="library"
+          data-room="mirador"
+          aria-label="Abrir la puerta de la biblioteca"
+        >
+          Biblioteca
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--books"
+          data-target="bookshelf"
+          data-room="biblioteca"
+          aria-label="Examinar la estantería secreta"
+        >
+          Estantería
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--archives"
+          data-target="archives"
+          data-room="biblioteca"
+          aria-label="Avanzar al archivo clasificado"
+        >
+          Archivo
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--folders"
+          data-target="archive"
+          data-room="archivo"
+          aria-label="Revisar las carpetas selladas"
+        >
+          Carpetas
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--labgate"
+          data-target="labgate"
+          data-room="archivo"
+          aria-label="Abrir el laboratorio lumínico"
+        >
+          Laboratorio
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--labmix"
+          data-target="laboratory"
+          data-room="laboratorio"
+          aria-label="Ajustar las mezclas de luz"
+        >
+          Mezclas
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--observatory"
+          data-target="observatoryGate"
+          data-room="laboratorio"
+          aria-label="Subir al planetario"
+        >
+          Planetario
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--projector"
+          data-target="observatory"
+          data-room="observatorio"
+          aria-label="Encender el proyector estelar"
+        >
+          Proyector
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--radiohall"
+          data-target="radioGate"
+          data-room="observatorio"
+          aria-label="Descender a la cabina de radio"
+        >
+          Cabina
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--radiodial"
+          data-target="radio"
+          data-room="radio"
+          aria-label="Sintonizar la frecuencia secreta"
+        >
+          Frecuencia
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--greenhousegate"
+          data-target="greenhouseGate"
+          data-room="radio"
+          aria-label="Abrir el invernadero"
+        >
+          Invernadero
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--garden"
+          data-target="greenhouse"
+          data-room="greenhouse"
+          aria-label="Ajustar los reguladores del invernadero"
+        >
+          Reguladores
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--lounge"
+          data-target="loungeGate"
+          data-room="greenhouse"
+          aria-label="Entrar al salón final"
+        >
+          Salón
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--musicbox"
+          data-target="musicbox"
+          data-room="lounge"
+          aria-label="Activar la caja musical"
+        >
+          Caja musical
         </button>
       </section>
     </main>
@@ -248,6 +416,174 @@
     </section>
 
     <section
+      id="modal-library"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="libraryTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="libraryTitle">Puerta a la biblioteca</h2>
+        <p>
+          Los ventanales reflejan una estantería oculta. Solo al descifrar el mensaje de la
+          ventana se iluminan las letras correctas.
+        </p>
+        <p id="libraryStatus" class="modal__status" role="status">
+          Ajusta la ventana nocturna para recordar la clave luminosa.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="library" disabled>
+          Entrar a la biblioteca
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-archives"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="archivesTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="archivesTitle">Acceso al archivo</h2>
+        <p>
+          Una puerta corredera bloquea el archivo clasificado. Parece que necesita una palabra
+          secreta formada con libros brillantes.
+        </p>
+        <p id="archivesStatus" class="modal__status" role="status">
+          Descifra la estantería para revelar la contraseña.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="archives" disabled>
+          Deslizar hacia el archivo
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-labgate"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="labgateTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="labgateTitle">Puerta del laboratorio</h2>
+        <p>
+          Las carpetas blindadas esconden el acceso. Solo cuando ordenas los expedientes con
+          sellos dorados la cerradura reconoce tu presencia.
+        </p>
+        <p id="labgateStatus" class="modal__status" role="status">
+          Identifica los expedientes correctos para habilitar la puerta.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="labgate" disabled>
+          Encender el laboratorio
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-observatoryGate"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="observatoryGateTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="observatoryGateTitle">Escalera al planetario</h2>
+        <p>
+          Las luces del laboratorio alimentan el ascensor. Ajusta las mezclas lumínicas para que
+          el ascenso sea seguro.
+        </p>
+        <p id="observatoryGateStatus" class="modal__status" role="status">
+          Calibra el laboratorio para continuar.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="observatoryGate" disabled>
+          Subir al planetario
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-radioGate"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="radioGateTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="radioGateTitle">Escalera a la cabina</h2>
+        <p>
+          El proyector estelar envía una señal a la cabina de radio. Necesitas proyectar la
+          constelación correcta para que se abra la compuerta.
+        </p>
+        <p id="radioGateStatus" class="modal__status" role="status">
+          Identifica la constelación favorita de Allende.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="radioGate" disabled>
+          Bajar a la cabina
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-greenhouseGate"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="greenhouseGateTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="greenhouseGateTitle">Acceso al invernadero</h2>
+        <p>
+          La puerta de cristal responde a una señal de audio concreta desde la cabina. Ajusta la
+          frecuencia antes de intentar abrirla.
+        </p>
+        <p id="greenhouseGateStatus" class="modal__status" role="status">
+          Sintoniza la transmisión escondida.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="greenhouseGate" disabled>
+          Entrar al invernadero
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-loungeGate"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="loungeGateTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="loungeGateTitle">Salón del festejo</h2>
+        <p>
+          Entre las plantas una puerta secreta conduce al salón final. Solo la vibración correcta
+          de los reguladores permite abrirla.
+        </p>
+        <p id="loungeGateStatus" class="modal__status" role="status">
+          Equilibra temperatura y humedad antes de continuar.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="loungeGate" disabled>
+          Entrar al salón
+        </button>
+      </article>
+    </section>
+
+    <section
       id="modal-window"
       class="modal hidden"
       role="dialog"
@@ -282,6 +618,207 @@
     </section>
 
     <section
+      id="modal-bookshelf"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="bookshelfTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="bookshelfTitle">Estantería oculta</h2>
+        <p>
+          Cuatro lomos de libros brillan formando las letras <strong>L</strong>, <strong>O</strong>,
+          <strong>V</strong> y <strong>E</strong>. El mensaje del mirador decía:
+          <em>"El amor abre las historias"</em>.
+        </p>
+        <form id="bookshelfForm" class="option-list">
+          <label for="bookshelfAnswer">Escribe la palabra secreta:</label>
+          <input id="bookshelfAnswer" name="bookshelfAnswer" type="text" autocomplete="off" required />
+          <button type="submit" class="btn btn--secondary">Desbloquear libros</button>
+        </form>
+        <p id="bookshelfFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-archive"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="archiveTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="archiveTitle">Archivo clasificado</h2>
+        <p>
+          Las carpetas están marcadas con sellos de colores. Solo las que tienen el sello dorado y
+          violeta deben abrirse. Selecciona las correctas.
+        </p>
+        <form id="archiveForm" class="option-list option-list--grid">
+          <fieldset>
+            <legend>¿Qué carpetas abrir?</legend>
+            <label>
+              <input type="checkbox" name="folders" value="gold" /> Expediente dorado
+            </label>
+            <label>
+              <input type="checkbox" name="folders" value="silver" /> Expediente plateado
+            </label>
+            <label>
+              <input type="checkbox" name="folders" value="violet" /> Expediente violeta
+            </label>
+            <label>
+              <input type="checkbox" name="folders" value="blue" /> Expediente azul
+            </label>
+          </fieldset>
+          <button type="submit" class="btn btn--secondary">Validar selección</button>
+        </form>
+        <p id="archiveFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-laboratory"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="laboratoryTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="laboratoryTitle">Laboratorio lumínico</h2>
+        <p>
+          Tres lámparas de neón necesitan una temperatura exacta para mezclarse. Allende anotó:
+          <em>"La luz perfecta se activa a 68 grados"</em>.
+        </p>
+        <div class="slider-group">
+          <label for="labTemperature">Temperatura actual: <span id="labTemperatureValue">50</span>°</label>
+          <input id="labTemperature" type="range" min="40" max="90" step="1" value="50" />
+        </div>
+        <button type="button" id="labCheck" class="btn btn--secondary">Estabilizar mezcla</button>
+        <p id="laboratoryFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-observatory"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="observatoryTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="observatoryTitle">Planetario privado</h2>
+        <p>
+          El proyector muestra tres constelaciones. Recuerda la pista del laboratorio:
+          <em>"Busca la figura con forma de cometa"</em>.
+        </p>
+        <form id="observatoryForm" class="option-list">
+          <fieldset>
+            <legend>Selecciona la constelación correcta</legend>
+            <label>
+              <input type="radio" name="constellation" value="orion" /> Orion brillante
+            </label>
+            <label>
+              <input type="radio" name="constellation" value="lyra" /> Lira estrellada
+            </label>
+            <label>
+              <input type="radio" name="constellation" value="comet" /> Cometa viajero
+            </label>
+          </fieldset>
+          <button type="submit" class="btn btn--secondary">Proyectar señal</button>
+        </form>
+        <p id="observatoryFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-radio"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="radioTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="radioTitle">Cabina de radio</h2>
+        <p>
+          Los diales muestran un brillo especial cuando alcanzan la frecuencia <strong>98.7</strong> FM.
+          Ajusta la perilla con precisión.
+        </p>
+        <div class="slider-group">
+          <label for="radioDial">Frecuencia: <span id="radioDialValue">95.0</span> FM</label>
+          <input id="radioDial" type="range" min="88" max="108" step="0.1" value="95" />
+        </div>
+        <button type="button" id="radioCheck" class="btn btn--secondary">Sintonizar</button>
+        <p id="radioFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-greenhouse"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="greenhouseTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="greenhouseTitle">Invernadero violeta</h2>
+        <p>
+          Las plantas reaccionan a un ambiente templado y húmedo. Las notas dicen: temperatura entre
+          22° y 24°, humedad al 70%.
+        </p>
+        <div class="slider-grid">
+          <label for="greenhouseTemp">Temperatura: <span id="greenhouseTempValue">24</span>°C</label>
+          <input id="greenhouseTemp" type="range" min="18" max="30" step="1" value="24" />
+          <label for="greenhouseHumidity">Humedad: <span id="greenhouseHumidityValue">55</span>%</label>
+          <input id="greenhouseHumidity" type="range" min="40" max="90" step="1" value="55" />
+        </div>
+        <button type="button" id="greenhouseCheck" class="btn btn--secondary">Equilibrar ambiente</button>
+        <p id="greenhouseFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-musicbox"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="musicboxTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="musicboxTitle">Caja musical</h2>
+        <p>
+          La caja reproduce la melodía favorita de Allende: <em>Do, Mi, Sol, La</em>. Pulsa las notas en
+          orden para revelar el último número.
+        </p>
+        <div class="sequence sequence--music" role="group" aria-label="Selecciona la secuencia de notas">
+          <button type="button" class="sequence__token" data-note="do">Do</button>
+          <button type="button" class="sequence__token" data-note="re">Re</button>
+          <button type="button" class="sequence__token" data-note="mi">Mi</button>
+          <button type="button" class="sequence__token" data-note="fa">Fa</button>
+          <button type="button" class="sequence__token" data-note="sol">Sol</button>
+          <button type="button" class="sequence__token" data-note="la">La</button>
+        </div>
+        <div class="sequence__controls">
+          <span id="musicSequenceProgress" aria-live="polite">Notas activas: —</span>
+          <button type="button" id="musicSequenceReset" class="btn btn--ghost">Reiniciar notas</button>
+        </div>
+        <p id="musicboxFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
       id="modal-door"
       class="modal hidden"
       role="dialog"
@@ -293,19 +830,19 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="doorTitle">Puerta blindada</h2>
         <p id="doorStatus">
-          Todavía faltan números. Explora la habitación hasta encontrar los tres códigos.
+          Todavía faltan números. Explora todas las habitaciones para encontrar las diez cifras.
         </p>
         <form id="doorForm" class="door-form">
-          <label for="doorCode">Introduce el código de tres cifras</label>
+          <label for="doorCode">Introduce el código de diez cifras</label>
           <input
             id="doorCode"
             name="doorCode"
             type="tel"
             inputmode="numeric"
             pattern="[0-9]*"
-            maxlength="3"
+            maxlength="10"
             autocomplete="one-time-code"
-            placeholder="_ _ _"
+            placeholder="_ _ _ _ _ _ _ _ _ _"
             required
           />
           <button type="submit" class="btn btn--primary">Abrir puerta</button>
