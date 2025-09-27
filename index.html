@@ -73,12 +73,13 @@
         </div>
       </aside>
 
-      <section class="room" aria-label="Habitación de escape">
+      <section class="room" id="roomStage" aria-label="Habitación de escape" data-room="estudio">
         <div class="room__backdrop" role="presentation"></div>
         <button
           type="button"
           class="hotspot hotspot--desk"
           data-target="diary"
+          data-room="estudio"
           aria-label="Revisar el cuaderno sobre el escritorio"
         >
           Cuaderno
@@ -87,6 +88,7 @@
           type="button"
           class="hotspot hotspot--chest"
           data-target="chest"
+          data-room="vestidor"
           aria-label="Abrir el baúl junto a la cama"
         >
           Baúl
@@ -95,6 +97,7 @@
           type="button"
           class="hotspot hotspot--window"
           data-target="window"
+          data-room="mirador"
           aria-label="Mirar por la ventana"
         >
           Ventana
@@ -103,9 +106,28 @@
           type="button"
           class="hotspot hotspot--door"
           data-target="door"
+          data-room="mirador"
           aria-label="Intentar abrir la puerta"
         >
           Puerta
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--hall"
+          data-target="gallery"
+          data-room="estudio"
+          aria-label="Cruzar el pasillo lateral"
+        >
+          Pasillo
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--terrace"
+          data-target="terrace"
+          data-room="vestidor"
+          aria-label="Subir al mirador"
+        >
+          Mirador
         </button>
       </section>
     </main>
@@ -174,6 +196,54 @@
           <button type="button" id="sequenceReset" class="btn btn--ghost">Reiniciar</button>
         </div>
         <p id="chestFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-gallery"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="galleryTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="galleryTitle">Pasillo lateral</h2>
+        <p>
+          Una puerta corredera conduce al vestidor de mapas. Parece necesitar la pista correcta
+          para deslizarse.
+        </p>
+        <p id="galleryStatus" class="modal__status" role="status">
+          Primero descifra el cuaderno para recordar la palabra clave.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="gallery" disabled>
+          Entrar al vestidor
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-terrace"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="terraceTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="terraceTitle">Escalera al mirador</h2>
+        <p>
+          El vestidor se abre a una escalera iluminada por luces neón. Un sensor detecta la
+          secuencia correcta del baúl antes de dejarte subir.
+        </p>
+        <p id="terraceStatus" class="modal__status" role="status">
+          Completa la secuencia de imanes para activar el mecanismo.
+        </p>
+        <button type="button" class="btn btn--secondary" data-travel="terrace" disabled>
+          Subir al mirador
+        </button>
       </article>
     </section>
 

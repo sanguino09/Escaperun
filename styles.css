@@ -225,16 +225,35 @@ p {
   overflow: hidden;
   box-shadow: var(--shadow);
   border: 1px solid var(--panel-border);
-  min-height: 70vh;
+  min-height: 74vh;
 }
 
 .room__backdrop {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(12, 7, 24, 0.95) 0%, rgba(18, 11, 31, 0.9) 50%, rgba(18, 11, 31, 0.85) 100%),
+    linear-gradient(185deg, rgba(12, 7, 24, 0.72) 0%, rgba(18, 11, 31, 0.78) 55%, rgba(18, 11, 31, 0.82) 100%),
     url("https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1400&q=80") center/cover;
-  filter: saturate(0.85);
+  filter: saturate(1.05) brightness(1.02);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.room[data-room="estudio"] .room__backdrop {
+  background:
+    linear-gradient(185deg, rgba(14, 8, 25, 0.65) 0%, rgba(18, 11, 31, 0.8) 60%, rgba(18, 11, 31, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1527281400683-0f5c4ea9a66e?auto=format&fit=crop&w=1600&q=80") center/cover;
+}
+
+.room[data-room="vestidor"] .room__backdrop {
+  background:
+    linear-gradient(180deg, rgba(16, 9, 28, 0.62) 0%, rgba(21, 12, 36, 0.78) 55%, rgba(21, 12, 36, 0.86) 100%),
+    url("https://images.unsplash.com/photo-1616628182501-c64883f5c1ad?auto=format&fit=crop&w=1600&q=80") center/cover;
+}
+
+.room[data-room="mirador"] .room__backdrop {
+  background:
+    linear-gradient(188deg, rgba(10, 6, 22, 0.58) 0%, rgba(16, 10, 29, 0.76) 60%, rgba(18, 11, 31, 0.88) 100%),
+    url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80") center/cover;
 }
 
 .hotspot {
@@ -259,24 +278,39 @@ p {
   box-shadow: 0 12px 28px rgba(247, 210, 125, 0.35);
 }
 
-.hotspot--desk {
-  top: 52%;
-  left: 24%;
+.hotspot[hidden] {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.hotspot--chest {
+.room[data-room="estudio"] .hotspot--desk {
+  top: 58%;
+  left: 26%;
+}
+
+.room[data-room="estudio"] .hotspot--hall {
   bottom: 18%;
-  left: 50%;
+  right: 14%;
 }
 
-.hotspot--window {
-  top: 26%;
-  right: 20%;
+.room[data-room="vestidor"] .hotspot--chest {
+  top: 52%;
+  left: 44%;
 }
 
-.hotspot--door {
-  bottom: 20%;
-  right: 8%;
+.room[data-room="vestidor"] .hotspot--terrace {
+  bottom: 12%;
+  right: 12%;
+}
+
+.room[data-room="mirador"] .hotspot--window {
+  top: 22%;
+  right: 26%;
+}
+
+.room[data-room="mirador"] .hotspot--door {
+  bottom: 16%;
+  left: 18%;
 }
 
 .modal {
@@ -339,6 +373,22 @@ p {
   margin-top: 1rem;
   color: var(--accent);
   font-weight: 600;
+}
+
+.modal__status {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.modal__status--active {
+  background: rgba(247, 210, 125, 0.16);
+  border-color: rgba(247, 210, 125, 0.35);
+  color: var(--accent);
 }
 
 .option-list fieldset {
