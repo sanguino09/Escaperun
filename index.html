@@ -128,12 +128,30 @@
         </button>
         <button
           type="button"
+          class="hotspot hotspot--explore hotspot--explore-estudio"
+          data-target="explore-estudio"
+          data-room="estudio"
+          aria-label="Observar los rincones del estudio"
+        >
+          Rincones
+        </button>
+        <button
+          type="button"
           class="hotspot hotspot--chest"
           data-target="chest"
           data-room="vestidor"
           aria-label="Abrir el baúl junto a la cama"
         >
           Baúl
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--explore hotspot--explore-vestidor"
+          data-target="explore-vestidor"
+          data-room="vestidor"
+          aria-label="Recorrer los detalles del vestidor"
+        >
+          Rincones
         </button>
         <button
           type="button"
@@ -146,12 +164,29 @@
         </button>
         <button
           type="button"
+          class="hotspot hotspot--explore hotspot--explore-mirador"
+          data-target="explore-mirador"
+          data-room="mirador"
+          aria-label="Explorar los balcones del mirador"
+        >
+          Rincones
+        </button>
+        <button
+          type="button"
           class="hotspot hotspot--door"
           data-target="door"
           data-room="lounge"
           aria-label="Intentar abrir la puerta"
         >
           Puerta
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--map"
+          data-target="map"
+          aria-label="Abrir el mapa holográfico de habitaciones"
+        >
+          Mapa
         </button>
         <button
           type="button"
@@ -191,6 +226,15 @@
         </button>
         <button
           type="button"
+          class="hotspot hotspot--explore hotspot--explore-biblioteca"
+          data-target="explore-biblioteca"
+          data-room="biblioteca"
+          aria-label="Explorar las mesas de lectura"
+        >
+          Rincones
+        </button>
+        <button
+          type="button"
           class="hotspot hotspot--archives"
           data-target="archives"
           data-room="biblioteca"
@@ -206,6 +250,15 @@
           aria-label="Revisar las carpetas selladas"
         >
           Carpetas
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--explore hotspot--explore-archivo"
+          data-target="explore-archivo"
+          data-room="archivo"
+          aria-label="Inspeccionar los anaqueles del archivo"
+        >
+          Rincones
         </button>
         <button
           type="button"
@@ -227,6 +280,15 @@
         </button>
         <button
           type="button"
+          class="hotspot hotspot--explore hotspot--explore-laboratorio"
+          data-target="explore-laboratorio"
+          data-room="laboratorio"
+          aria-label="Revisar aparatos experimentales"
+        >
+          Rincones
+        </button>
+        <button
+          type="button"
           class="hotspot hotspot--observatory"
           data-target="observatoryGate"
           data-room="laboratorio"
@@ -242,6 +304,15 @@
           aria-label="Encender el proyector estelar"
         >
           Proyector
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--explore hotspot--explore-observatorio"
+          data-target="explore-observatorio"
+          data-room="observatorio"
+          aria-label="Examinar el domo estelar"
+        >
+          Rincones
         </button>
         <button
           type="button"
@@ -263,6 +334,15 @@
         </button>
         <button
           type="button"
+          class="hotspot hotspot--explore hotspot--explore-radio"
+          data-target="explore-radio"
+          data-room="radio"
+          aria-label="Explorar los paneles de la cabina"
+        >
+          Rincones
+        </button>
+        <button
+          type="button"
           class="hotspot hotspot--greenhousegate"
           data-target="greenhouseGate"
           data-room="radio"
@@ -278,6 +358,15 @@
           aria-label="Ajustar los reguladores del invernadero"
         >
           Reguladores
+        </button>
+        <button
+          type="button"
+          class="hotspot hotspot--explore hotspot--explore-greenhouse"
+          data-target="explore-greenhouse"
+          data-room="greenhouse"
+          aria-label="Recorrer las pasarelas del invernadero"
+        >
+          Rincones
         </button>
         <button
           type="button"
@@ -297,6 +386,15 @@
         >
           Caja musical
         </button>
+        <button
+          type="button"
+          class="hotspot hotspot--explore hotspot--explore-lounge"
+          data-target="explore-lounge"
+          data-room="lounge"
+          aria-label="Descubrir los rincones del salón"
+        >
+          Rincones
+        </button>
       </section>
     </main>
 
@@ -312,7 +410,7 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="diaryTitle">Cuaderno de viaje</h2>
         <p>
-          Las páginas están llenas de adhesivos y boletos de avión. Una nota dice:
+          Las páginas destellan con adhesivos fluorescentes y boletos perfumados. Una nota dice:
           <em>"Mi primer destino siempre guarda la llave del resto"</em>.
         </p>
         <form id="diaryForm" class="option-list">
@@ -338,6 +436,56 @@
     </section>
 
     <section
+      id="modal-explore-estudio"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreEstudioTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreEstudioTitle">Rincones del estudio</h2>
+        <p>
+          Las paredes respiran neón y el reloj del refugio avanza sin hacer ruido. Cada objeto conserva
+          una chispa de las aventuras pasadas de Allende.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El escritorio exhibe mapas de vuelo doblados y fotografías polaroid que marcan aterrizajes improvisados. Un cupón arrugado conserva la tinta del primer viaje."
+            >
+              Escritorio de planos
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El mural de rutas une continentes con hilos fluorescentes. Al tocarlos, un cosquilleo eléctrico recorre los dedos como si cada hilo fuera una corriente aérea."
+            >
+              Mural de rutas
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El fonógrafo custodia vinilos rayados. Gira sin aguja y murmura risas lejanas mezcladas con aplausos en miniatura. Parece esperar el código correcto para volver a sonar."
+            >
+              Fonógrafo centinela
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Elige un punto del estudio para inspeccionarlo."
+          >
+            Elige un punto del estudio para inspeccionarlo.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section
       id="modal-chest"
       class="modal hidden"
       role="dialog"
@@ -349,7 +497,7 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="chestTitle">Baúl secreto</h2>
         <p>
-          Dentro hay compartimentos con figuras magnéticas. El mensaje dice:
+          Dentro hay compartimentos magnéticos que chispean como estrellas. El mensaje dice:
           <em>"Activa la secuencia favorita de Allende"</em>.
         </p>
         <div class="sequence" role="group" aria-label="Selecciona la secuencia correcta">
@@ -368,6 +516,56 @@
     </section>
 
     <section
+      id="modal-explore-vestidor"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreVestidorTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreVestidorTitle">Brillos del vestidor</h2>
+        <p>
+          Los espejos multiplican destellos fucsias y el suelo guarda huellas de bailes clandestinos.
+          El vestidor es un manifiesto portátil de viajes improvisados.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El espejo infinito proyecta versiones de ti sosteniendo maletas selladas. Cada reflejo susurra un destino distinto, esperando la contraseña correcta."
+            >
+              Espejo infinito
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El perchero luce máscaras luminiscentes, cada una marcada con códigos binarios bordados en la tela. Al moverlas tintinean como si anunciaran una función secreta."
+            >
+              Perchero codificado
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un cajón transparente contiene pulseras de luz que aún conservan calor. Se activan al tacto dejando un rastro chisporroteante en el aire."
+            >
+              Cajón de luces
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Elige una pieza del vestidor para examinarla."
+          >
+            Elige una pieza del vestidor para examinarla.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section
       id="modal-gallery"
       class="modal hidden"
       role="dialog"
@@ -379,15 +577,246 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="galleryTitle">Pasillo lateral</h2>
         <p>
-          Una puerta corredera conduce al vestidor de mapas. Puedes cruzarla en cuanto quieras
-          explorar más allá del estudio.
+          El panel corredizo exhala vapor azul y deja entrever destellos fucsias del vestidor.
+          Cruza cuando quieras que el estudio respire aire de aventura.
         </p>
         <p id="galleryStatus" class="modal__status" role="status">
-          El pasillo está listo. Cuando termines de mirar el cuaderno, o antes, puedes avanzar.
+          El pasillo aguarda entre penumbras, listo para abrirse en cuanto decidas abandonar el
+          escritorio.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="gallery" disabled>
           Entrar al vestidor
         </button>
+      </article>
+    </section>
+
+    <section
+      id="modal-map"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mapTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content modal__content--wide">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="mapTitle">Mapa holográfico</h2>
+        <p>
+          Las rutas del refugio aparecen suspendidas en el aire. Selecciona una habitación desbloqueada
+          para viajar de inmediato y seguir explorando pistas.
+        </p>
+        <ul class="map-list">
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="estudio"
+                data-requirement=""
+                data-note="Regresas al estudio donde el cuaderno y los mapas te esperan encendidos."
+              >
+                Estudio del navegante
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="estudio"
+                data-locked="El punto de partida siempre está disponible."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Centro de operaciones repleto de mapas, fotografías y el cuaderno de viaje.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="vestidor"
+                data-requirement="gallery"
+                data-note="Te deslizas al vestidor neón y las maletas vuelven a brillar."
+              >
+                Vestidor neón
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="vestidor"
+                data-locked="Activa el pasillo lateral desde el estudio para acceder."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Maletas abiertas, luces fucsias y un baúl magnético lleno de secretos.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="mirador"
+                data-requirement="terrace"
+                data-note="Corres hacia el mirador nocturno y sientes el viento encender la música."
+              >
+                Mirador nocturno
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="mirador"
+                data-locked="Necesitas activar la escalera luminosa desde el vestidor."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Terraza elevada con persianas inteligentes y reflejos que ocultan pistas.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="biblioteca"
+                data-requirement="library"
+                data-note="Te deslizas entre anaqueles dorados listos para revelar la palabra clave."
+              >
+                Biblioteca secreta
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="biblioteca"
+                data-locked="Alinea el reflejo nocturno para desbloquear la biblioteca."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Estanterías brillantes, vitrinas enigmáticas y letras que vibran con luz.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="archivo"
+                data-requirement="archives"
+                data-note="Te sumerges otra vez en el archivo blindado y sus expedientes cromáticos."
+              >
+                Archivo blindado
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="archivo"
+                data-locked="Descifra la palabra de la biblioteca para abrir el archivo."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Expedientes sellados, tubos neumáticos y sellos que brillan al ritmo de la música.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="laboratorio"
+                data-requirement="labgate"
+                data-note="Vuelves al laboratorio para ajustar mezclas fluorescentes con precisión."
+              >
+                Laboratorio lumínico
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="laboratorio"
+                data-locked="Selecciona los sellos correctos para alimentar el laboratorio."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Reactivos brillantes, osciloscopios y una temperatura que decide el avance.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="observatorio"
+                data-requirement="observatoryGate"
+                data-note="Subes al observatorio privado donde las constelaciones obedecen tus señales."
+              >
+                Observatorio privado
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="observatorio"
+                data-locked="Estabiliza la mezcla del laboratorio para liberar el domo."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Domo estelar, prismas giratorios y constelaciones que transmiten mensajes.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="radio"
+                data-requirement="radioGate"
+                data-note="Desciendes hacia la cabina y el dial vuelve a buscar la frecuencia clandestina."
+              >
+                Cabina de radio
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="radio"
+                data-locked="Necesitas proyectar el cometa correcto para abrir la cabina."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Paneles sonoros, antenas en espiral y cuadernos de locución iluminados.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="greenhouse"
+                data-requirement="greenhouseGate"
+                data-note="Vuelves al invernadero donde el clima violeta respira junto a ti."
+              >
+                Invernadero violeta
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="greenhouse"
+                data-locked="Sintoniza la frecuencia secreta para abrir el invernadero."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Pasarelas tibias, vapor aromático y sensores atentos a cada ajuste.
+            </p>
+          </li>
+          <li class="map-list__item">
+            <div class="map-list__header">
+              <button
+                type="button"
+                class="map-list__button"
+                data-room-target="lounge"
+                data-requirement="loungeGate"
+                data-note="El salón del festejo se ilumina al sentir tus pasos en dirección a la salida."
+              >
+                Salón del festejo
+              </button>
+              <span
+                class="map-list__status"
+                data-room-status="lounge"
+                data-locked="Equilibra el clima del invernadero para abrir el salón."
+              ></span>
+            </div>
+            <p class="map-list__description">
+              Luces cálidas, mesas preparadas y una puerta final esperando el código completo.
+            </p>
+          </li>
+        </ul>
       </article>
     </section>
 
@@ -403,11 +832,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="terraceTitle">Escalera al mirador</h2>
         <p>
-          El vestidor se abre a una escalera iluminada por luces neón. El sensor acepta la pista
-          del cuaderno o la secuencia del baúl antes de dejarte subir.
+          Una escalera de luz serpentea hacia el mirador. El sensor aguarda la pista del cuaderno o
+          el latido magnético del baúl antes de permitir el ascenso.
         </p>
         <p id="terraceStatus" class="modal__status" role="status">
-          Resuelve el cuaderno o el baúl favorito para encender la escalera.
+          Resuelve el cuaderno o activa la secuencia favorita para que la escalera cobre vida.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="terrace" disabled>
           Subir al mirador
@@ -427,11 +856,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="libraryTitle">Puerta a la biblioteca</h2>
         <p>
-          Los ventanales reflejan una estantería oculta. Solo al descifrar el mensaje de la
-          ventana se iluminan las letras correctas.
+          Los ventanales proyectan una estantería oculta con destellos codificados. Ajusta el
+          ambiente del mirador para que la palabra secreta se revele.
         </p>
         <p id="libraryStatus" class="modal__status" role="status">
-          Ajusta la ventana nocturna para recordar la clave luminosa.
+          Alinea luces, persiana y música hasta que el reflejo pronuncie la clave.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="library" disabled>
           Entrar a la biblioteca
@@ -451,11 +880,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="archivesTitle">Acceso al archivo</h2>
         <p>
-          Una puerta corredera bloquea el archivo clasificado. Parece que necesita una palabra
-          secreta formada con libros brillantes.
+          Una compuerta blindada protege el archivo. Solo reaccionará cuando la palabra formada en la
+          biblioteca chispee con fuerza.
         </p>
         <p id="archivesStatus" class="modal__status" role="status">
-          Descifra la estantería para revelar la contraseña.
+          Ordena las letras luminosas de la biblioteca para que el archivo te reconozca.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="archives" disabled>
           Deslizar hacia el archivo
@@ -475,11 +904,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="labgateTitle">Puerta del laboratorio</h2>
         <p>
-          Las carpetas blindadas esconden el acceso. Solo cuando ordenas los expedientes con
-          sellos dorados la cerradura reconoce tu presencia.
+          Los expedientes magnetizados vibran sobre sus rieles. Solo la combinación dorado y violeta
+          desbloquea la cerradura luminosa del laboratorio.
         </p>
         <p id="labgateStatus" class="modal__status" role="status">
-          Identifica los expedientes correctos para habilitar la puerta.
+          Selecciona los sellos dorado y violeta para que la compuerta se ilumine.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="labgate" disabled>
           Encender el laboratorio
@@ -499,11 +928,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="observatoryGateTitle">Escalera al planetario</h2>
         <p>
-          Las luces del laboratorio alimentan el ascensor. Ajusta las mezclas lumínicas para que
-          el ascenso sea seguro.
+          Una espiral metálica palpita con energía. Solo cuando el laboratorio alcance la mezcla
+          perfecta permitirá el ascenso al domo.
         </p>
         <p id="observatoryGateStatus" class="modal__status" role="status">
-          Calibra el laboratorio para continuar.
+          Ajusta temperatura y brillo del laboratorio hasta que la escalera se encienda.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="observatoryGate" disabled>
           Subir al planetario
@@ -523,11 +952,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="radioGateTitle">Escalera a la cabina</h2>
         <p>
-          El proyector estelar envía una señal a la cabina de radio. Necesitas proyectar la
-          constelación correcta para que se abra la compuerta.
+          El domo proyecta destellos hacia la cabina. Solo la figura del cometa liberará la compuerta
+          y encenderá el descenso.
         </p>
         <p id="radioGateStatus" class="modal__status" role="status">
-          Identifica la constelación favorita de Allende.
+          Elige la constelación del cometa para que la cabina se ilumine.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="radioGate" disabled>
           Bajar a la cabina
@@ -547,11 +976,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="greenhouseGateTitle">Acceso al invernadero</h2>
         <p>
-          La puerta de cristal responde a una señal de audio concreta desde la cabina. Ajusta la
-          frecuencia antes de intentar abrirla.
+          La puerta de cristal responde a ecos de radio procedentes de la cabina. Sintoniza la
+          frecuencia exacta para que el rocío desbloquee la entrada.
         </p>
         <p id="greenhouseGateStatus" class="modal__status" role="status">
-          Sintoniza la transmisión escondida.
+          Ajusta la frecuencia secreta 98.7 FM para que el invernadero te reciba.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="greenhouseGate" disabled>
           Entrar al invernadero
@@ -571,11 +1000,11 @@
         <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
         <h2 id="loungeGateTitle">Salón del festejo</h2>
         <p>
-          Entre las plantas una puerta secreta conduce al salón final. Solo la vibración correcta
-          de los reguladores permite abrirla.
+          Entre las plantas se esconde una puerta dorada. Solo el clima perfecto del invernadero
+          liberará su cerradura.
         </p>
         <p id="loungeGateStatus" class="modal__status" role="status">
-          Equilibra temperatura y humedad antes de continuar.
+          Equilibra temperatura templada y humedad al 70% para acceder al salón.
         </p>
         <button type="button" class="btn btn--secondary" data-travel="loungeGate" disabled>
           Entrar al salón
@@ -618,6 +1047,56 @@
     </section>
 
     <section
+      id="modal-explore-mirador"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreMiradorTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreMiradorTitle">Horizonte del mirador</h2>
+        <p>
+          Una brisa nocturna cuela notas musicales y el cristal vibra con reflejos púrpura.
+          Desde aquí se controla el pulso de la ciudad.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="La barandilla estelar está llena de grabados microscópicos que narran rutas aéreas. Tocar los símbolos enciende microleds que dibujan constelaciones sobre la mesa."
+            >
+              Barandilla estelar
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="La cúpula acristalada refleja tus gestos con un retardo mínimo, como si otra versión de ti ensayara combinaciones de luces al otro lado."
+            >
+              Cúpula acristalada
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Una linterna de señales descansa sobre el banco. Al girarla proyecta haces morados sobre las nubes y hace vibrar un pequeño timbre oculto."
+            >
+              Linterna de señales
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Selecciona un detalle del mirador para acercarte."
+          >
+            Selecciona un detalle del mirador para acercarte.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section
       id="modal-bookshelf"
       class="modal hidden"
       role="dialog"
@@ -639,6 +1118,56 @@
           <button type="submit" class="btn btn--secondary">Desbloquear libros</button>
         </form>
         <p id="bookshelfFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-explore-biblioteca"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreBibliotecaTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreBibliotecaTitle">Susurros de la biblioteca</h2>
+        <p>
+          Estantes, vitrinas y lámparas flotantes cuentan historias secretas. La luz cambia con cada
+          título pronunciado.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un globo terráqueo de cristal gira solo, iluminando ciudades con destellos dorados. Cada giro proyecta coordenadas sobre el techo abovedado."
+            >
+              Globo terráqueo
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El escritorio de traducciones guarda diccionarios intervenidos a mano. Las notas al margen brillan como tinta líquida y hablan sobre amistades en claves morse."
+            >
+              Escritorio de traducciones
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Una lámpara suspendida late al ritmo de tu respiración. Cuando te acercas, proyecta escenas holográficas de lectores bailando entre pasillos."
+            >
+              Lámpara suspendida
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Selecciona un rincón de la biblioteca para descifrarlo."
+          >
+            Selecciona un rincón de la biblioteca para descifrarlo.
+          </p>
+        </div>
       </article>
     </section>
 
@@ -680,6 +1209,56 @@
     </section>
 
     <section
+      id="modal-explore-archivo"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreArchivoTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreArchivoTitle">Secretos del archivo</h2>
+        <p>
+          Filas metálicas contienen expedientes que respiran calor y frío al mismo tiempo. El suelo
+          retumba como si debajo corriera un tren fantasma.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Los anaqueles magnéticos cambian de tonalidad al detectar tu presencia. Se ordenan solos formando palabras pasajeras que desaparecen al parpadear."
+            >
+              Anaqueles magnéticos
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Una mesa central exhibe sellos de colores guardados en cajas de cristal. Al acercarte, cada sello emite un murmullo como si enumerara misiones completadas."
+            >
+              Mesa de sellos
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un tubo neumático vibra intermitentemente. Dentro hay mensajes enrollados que describen celebraciones futuras, fechadas en horas que aún no han sucedido."
+            >
+              Tubo de mensajes
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Elige un expediente o artefacto para escucharlo."
+          >
+            Elige un expediente o artefacto para escucharlo.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section
       id="modal-laboratory"
       class="modal hidden"
       role="dialog"
@@ -700,6 +1279,56 @@
         </div>
         <button type="button" id="labCheck" class="btn btn--secondary">Estabilizar mezcla</button>
         <p id="laboratoryFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-explore-laboratorio"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreLaboratorioTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreLaboratorioTitle">Luces del laboratorio</h2>
+        <p>
+          Tubos fluorescentes, medidores humeantes y botellas suspendidas trabajan como si la noche
+          fuera una científica aliada.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="La mesa de reactivos vibra con burbujas luminosas que laten como luciérnagas atrapadas. Si acercas la mano, el brillo se intensifica en busca de calor."
+            >
+              Mesa de reactivos
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El osciloscopio proyecta ondas en relieve que se convierten en melodías matemáticas. Cada curva parece coincidir con la temperatura ideal del rompecabezas."
+            >
+              Osciloscopio musical
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Una balanza gravitatoria mantiene suspendidos objetos imposibles: una pluma, un trozo de meteorito y una llave que gira sobre sí misma sin caer."
+            >
+              Balanza gravitatoria
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Escoge un instrumento del laboratorio para observarlo."
+          >
+            Escoge un instrumento del laboratorio para observarlo.
+          </p>
+        </div>
       </article>
     </section>
 
@@ -738,6 +1367,56 @@
     </section>
 
     <section
+      id="modal-explore-observatorio"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreObservatorioTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreObservatorioTitle">Constelaciones privadas</h2>
+        <p>
+          El domo metálico amplifica cada respiración. Sobre ti flotan estrellas programables que
+          responden a palmadas secretas.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un atril holográfico proyecta cartas celestes que cambian al ritmo de tu pulso. Las líneas se encienden formando firmas luminosas."
+            >
+              Atril holográfico
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El sillón de observación gravita unos centímetros sobre el suelo. Al sentarte, el respaldo vibra como si alguien ajustara las estrellas desde los altavoces ocultos."
+            >
+              Sillón flotante
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un prisma giratorio de cristal derrama rayos multicolor que se deslizan por el domo. Cada giro acompaña un murmullo que suena a radio lejana."
+            >
+              Prisma giratorio
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Señala una constelación privada para investigarla."
+          >
+            Señala una constelación privada para investigarla.
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <section
       id="modal-radio"
       class="modal hidden"
       role="dialog"
@@ -758,6 +1437,56 @@
         </div>
         <button type="button" id="radioCheck" class="btn btn--secondary">Sintonizar</button>
         <p id="radioFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-explore-radio"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreRadioTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreRadioTitle">Cabina resonante</h2>
+        <p>
+          Luces ámbar iluminan paneles de transmisión. Las ondas sonoras se enredan entre cables
+          trenzados como serpientes amistosas.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El mezclador de frecuencias parpadea con barras de colores. Al deslizar un control, escuchas voces antiguas que ríen al ritmo de percusiones suaves."
+            >
+              Mezclador de frecuencias
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Una antena interior gira lentamente, alineándose con constelaciones invisibles. Cada giro libera chispas silenciosas que flotan unos segundos en el aire."
+            >
+              Antena interior
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un cuaderno de locuciones descansa abierto con frases destacadas en tinta plateada. Al tocarlas, sientes vibrar la madera del atril como si ensayara una transmisión."
+            >
+              Cuaderno de locuciones
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Escoge un panel de la cabina para acercarte."
+          >
+            Escoge un panel de la cabina para acercarte.
+          </p>
+        </div>
       </article>
     </section>
 
@@ -784,6 +1513,56 @@
         </div>
         <button type="button" id="greenhouseCheck" class="btn btn--secondary">Equilibrar ambiente</button>
         <p id="greenhouseFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-explore-greenhouse"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreGreenhouseTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreGreenhouseTitle">Pasarelas del invernadero</h2>
+        <p>
+          Vapor aromático envuelve flores nocturnas, ventiladores suaves y vitrinas llenas de rocío
+          suspendido.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un estanque circular refleja luces moradas. Cada gota que cae dibuja ondas que forman números efímeros sobre la superficie."
+            >
+              Estanque lumínico
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El muro de helechos canta un rumor suave. Sus hojas vibran al compás de la humedad y liberan destellos plateados al ser acariciadas."
+            >
+              Muro de helechos
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un banco de madera tibia guarda mensajes grabados con láser. Al sentarte, detecta tu ritmo cardíaco y ajusta un halo de luz envolvente."
+            >
+              Banco sensorial
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Elige un sendero del invernadero para recorrerlo."
+          >
+            Elige un sendero del invernadero para recorrerlo.
+          </p>
+        </div>
       </article>
     </section>
 
@@ -815,6 +1594,56 @@
           <button type="button" id="musicSequenceReset" class="btn btn--ghost">Reiniciar notas</button>
         </div>
         <p id="musicboxFeedback" class="modal__feedback" role="status"></p>
+      </article>
+    </section>
+
+    <section
+      id="modal-explore-lounge"
+      class="modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exploreLoungeTitle"
+    >
+      <div class="modal__overlay" data-action="close"></div>
+      <article class="modal__content">
+        <button type="button" class="modal__close" data-action="close" aria-label="Cerrar">×</button>
+        <h2 id="exploreLoungeTitle">Escena del salón</h2>
+        <p>
+          El salón vibra con música suspendida en el aire. Cortinas doradas se mueven sin viento y la
+          fiesta parece lista para reanudarse en cualquier momento.
+        </p>
+        <div class="ambient-explore" data-ambient-group>
+          <div class="ambient-options">
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="La mesa de banquetes luce copas que brillan desde dentro. Cada sorbo imaginario despierta aromas de frutas exóticas y risas lejanas."
+            >
+              Mesa de banquetes
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="Un proyector vintage lanza sombras danzantes sobre las paredes. Las siluetas repiten coreografías y de pronto señalan la puerta final."
+            >
+              Proyector de sombras
+            </button>
+            <button
+              type="button"
+              class="ambient-option"
+              data-description="El balcón interior abre la vista a la ciudad. Desde allí llega un eco de celebración que promete intensificarse cuando descifres el último número."
+            >
+              Balcón interior
+            </button>
+          </div>
+          <p
+            class="modal__ambient"
+            data-ambient-output
+            data-default="Explora un rincón del salón para avivar la celebración."
+          >
+            Explora un rincón del salón para avivar la celebración.
+          </p>
+        </div>
       </article>
     </section>
 

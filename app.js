@@ -30,52 +30,52 @@ const ROOMS = [
   {
     key: "estudio",
     note:
-      "El estudio está cubierto de mapas y recuerdos. El cuaderno en el escritorio contiene la primera pista del viaje.",
+      "El estudio vibra con mapas iluminados y olor a tinta fresca. El cuaderno de viaje late como un corazón que guarda la primera coordenada.",
   },
   {
     key: "vestidor",
     note:
-      "El vestidor neón brilla con maletas abiertas. Encuentra el baúl magnético y pulsa la secuencia favorita.",
+      "El vestidor neón chisporrotea con maletas abiertas y pistas cosidas al forro. El baúl magnético promete revelar una secuencia secreta.",
   },
   {
     key: "mirador",
     note:
-      "Desde el mirador nocturno debes ajustar las luces, la persiana y la música para revelar un reflejo secreto.",
+      "El mirador nocturno parpadea entre luces, persianas y música. Ajusta el ambiente correcto para despertar el reflejo oculto.",
   },
   {
     key: "biblioteca",
     note:
-      "La biblioteca oculta libros iluminados. Ordena las letras brillantes para formar la palabra clave.",
+      "La biblioteca susurra historias y alumbra títulos prohibidos. Ordena las letras doradas para pronunciar la palabra clave.",
   },
   {
     key: "archivo",
     note:
-      "Los archivos clasificados guardan expedientes con sellos de colores. Selecciona solo los que brillan en dorado y violeta.",
+      "El archivo blindado guarda expedientes con sellos cromáticos. Solo los timbres dorado y violeta abren el registro clandestino.",
   },
   {
     key: "laboratorio",
     note:
-      "En el laboratorio las lámparas de neón reaccionan a la temperatura exacta. Ajusta el control hasta 68°.",
+      "El laboratorio de luz tiembla al ritmo del termostato. Encuentra la temperatura exacta para domar la mezcla fluorescente.",
   },
   {
     key: "observatorio",
     note:
-      "El planetario proyecta constelaciones. Escoge la figura en forma de cometa para enviar la señal correcta.",
+      "El observatorio proyecta constelaciones suspendidas. El cometa correcto enviará una llamada a través del domo.",
   },
   {
     key: "radio",
     note:
-      "La cabina de radio espera la frecuencia perfecta. Gira el dial hasta alcanzar los 98.7 FM.",
+      "La cabina de radio zumba con interferencias. Ajusta el dial hasta que la frecuencia 98.7 FM cante su número oculto.",
   },
   {
     key: "greenhouse",
     note:
-      "El invernadero violeta requiere el clima ideal. Ajusta temperatura templada y humedad al 70%.",
+      "El invernadero violeta respira vapor aromático. Equilibra clima templado y humedad exacta para que las flores revelen el código.",
   },
   {
     key: "lounge",
     note:
-      "El salón final vibra con luces cálidas. Activa la caja musical para conseguir la última cifra antes de abrir la puerta.",
+      "El salón del festejo destella con luces cálidas. Despierta la caja musical para liberar la última cifra y abrir la puerta final.",
   },
 ];
 
@@ -84,75 +84,89 @@ const TRAVELS = {
     unlockType: "immediate",
     requirements: [],
     to: "vestidor",
-    lockedText: "El pasillo está esperando. Decide cuándo cruzarlo.",
-    unlockedText: "El pasillo lateral está libre. Entra al vestidor luminoso cuando quieras.",
-    note: "Cruzas al vestidor iluminado, listo para activar la secuencia magnética.",
+    lockedText: "El pasillo está en penumbra, aguardando a que reúnas valor para cruzarlo.",
+    unlockedText:
+      "El panel corredero se aparta y un resplandor fucsia invita a explorar el vestidor de neón.",
+    note: "Te deslizas por el pasillo lateral y entras en el vestidor chispeante.",
   },
   terrace: {
     unlockType: "any",
     requirements: ["diary", "chest"],
     to: "mirador",
-    lockedText: "Resuelve el cuaderno o el baúl para activar la escalera al mirador.",
+    lockedText: "El acceso al mirador permanece sellado hasta que descifres el cuaderno o el baúl.",
     unlockedText:
-      "Las luces del baúl o la pista del cuaderno encienden la escalera al mirador. Continúa arriba.",
-    note: "Llegas al mirador nocturno donde las ventanas dominan la vista de la ciudad.",
+      "Las notas del cuaderno o la secuencia del baúl iluminan la escalera hacia el mirador panorámico.",
+    note: "Asciendes al mirador nocturno, donde la ciudad titila bajo tus pies.",
   },
   library: {
     unlockType: "all",
     requirements: ["window"],
     to: "biblioteca",
-    lockedText: "Ajusta la ventana nocturna para descubrir la palabra luminosa.",
-    unlockedText: "El reflejo revela el código y la puerta de la biblioteca se desliza.",
-    note: "La biblioteca huele a páginas antiguas. Busca la estantería que brilla.",
+    lockedText: "La biblioteca resiste. Ajusta la ventana nocturna para invocar la contraseña luminosa.",
+    unlockedText:
+      "El reflejo de la ventana revela la palabra secreta y la puerta corrediza se abre sin ruido.",
+    note: "La biblioteca te envuelve con perfume a papel antiguo y destellos dorados.",
   },
   archives: {
     unlockType: "all",
     requirements: ["bookshelf"],
     to: "archivo",
-    lockedText: "Primero descifra la palabra escondida entre los libros.",
-    unlockedText: "Las letras se acomodan y el archivo clasificado se desbloquea.",
-    note: "Te adentras entre expedientes secretos y sellos de colores.",
+    lockedText: "Aún falta recomponer la palabra oculta entre los libros iluminados.",
+    unlockedText:
+      "Las letras se alinean, un sello magnético chasquea y el archivo clasificado cede su cerradura.",
+    note: "Cruzas hacia el archivo blindado, rodeado de expedientes codificados.",
   },
   labgate: {
     unlockType: "all",
     requirements: ["archive"],
     to: "laboratorio",
-    lockedText: "Selecciona los expedientes correctos para liberar el acceso.",
-    unlockedText: "Los sellos correctos iluminan la puerta del laboratorio.",
-    note: "El laboratorio vibra con luces neón esperando la temperatura ideal.",
+    lockedText: "Las puertas del laboratorio se alimentan de los sellos dorado y violeta correctos.",
+    unlockedText:
+      "Los sellos brillan al unísono y la compuerta del laboratorio se desliza entre destellos.",
+    note: "El laboratorio vibra con neones expectantes y tubos centelleantes.",
   },
   observatoryGate: {
     unlockType: "all",
     requirements: ["laboratory"],
     to: "observatorio",
-    lockedText: "Calibra la mezcla luminosa hasta alcanzar la temperatura correcta.",
-    unlockedText: "Las lámparas zumban y abren la escalera al planetario.",
-    note: "Subes al planetario donde tres constelaciones flotan en el domo.",
+    lockedText: "El planetario sigue oscuro hasta que estabilices la mezcla luminosa.",
+    unlockedText:
+      "Los tubos neón emiten un zumbido triunfal y liberan la escalera en espiral hacia el domo.",
+    note: "Subes al observatorio privado, rodeado de constelaciones flotantes.",
   },
   radioGate: {
     unlockType: "all",
     requirements: ["observatory"],
     to: "radio",
-    lockedText: "Necesitas proyectar la constelación adecuada antes de descender.",
-    unlockedText: "La señal del cometa desbloquea la puerta hacia la cabina de radio.",
-    note: "La cabina de radio brilla con perillas y paneles iluminados.",
+    lockedText: "La cabina de radio permanece cerrada sin la señal del cometa.",
+    unlockedText:
+      "El cometa proyectado envía una ráfaga eléctrica que abre el acceso a la cabina de radio.",
+    note: "Desciendes entre cables incandescentes hacia la cabina llena de controles.",
   },
   greenhouseGate: {
     unlockType: "all",
     requirements: ["radio"],
     to: "greenhouse",
-    lockedText: "Aún falta sintonizar la frecuencia indicada en el dial.",
-    unlockedText: "La transmisión secreta abre el paso al invernadero.",
-    note: "El aire húmedo del invernadero te envuelve con aroma a lavanda.",
+    lockedText: "El invernadero reclama una frecuencia estable para liberar sus compuertas.",
+    unlockedText:
+      "La transmisión secreta pulsa en verde y la puerta del invernadero se desliza cubierta de rocío.",
+    note: "El aire húmedo del invernadero te rodea con fragancias nocturnas.",
   },
   loungeGate: {
     unlockType: "all",
     requirements: ["greenhouse"],
     to: "lounge",
-    lockedText: "Equilibra temperatura y humedad antes de abrir el salón.",
-    unlockedText: "Los sensores verdes confirman el clima ideal y liberan el acceso final.",
-    note: "Entras al salón del festejo donde la música espera tu toque final.",
+    lockedText: "El salón sigue sellado hasta que equilibres el clima violeta del invernadero.",
+    unlockedText:
+      "Los sensores celebran el clima perfecto y la puerta del salón gira entre chispas doradas.",
+    note: "Accedes al salón resplandeciente donde la música espera tu final heroico.",
   },
+};
+
+const MAP_DEFAULT_STATUS = {
+  current: "Aquí mismo",
+  available: "Disponible",
+  visited: "Visitada",
 };
 
 function createFoundMap() {
@@ -208,6 +222,7 @@ const state = {
   currentModal: null,
   previousFocus: null,
   room: ROOMS[0].key,
+  visitedRooms: new Set([ROOMS[0].key]),
   travelUnlocked: createTravelMap(),
 };
 
@@ -296,6 +311,17 @@ elements.modals = {
   radioGate: document.getElementById("modal-radioGate"),
   greenhouseGate: document.getElementById("modal-greenhouseGate"),
   loungeGate: document.getElementById("modal-loungeGate"),
+  map: document.getElementById("modal-map"),
+  "explore-estudio": document.getElementById("modal-explore-estudio"),
+  "explore-vestidor": document.getElementById("modal-explore-vestidor"),
+  "explore-mirador": document.getElementById("modal-explore-mirador"),
+  "explore-biblioteca": document.getElementById("modal-explore-biblioteca"),
+  "explore-archivo": document.getElementById("modal-explore-archivo"),
+  "explore-laboratorio": document.getElementById("modal-explore-laboratorio"),
+  "explore-observatorio": document.getElementById("modal-explore-observatorio"),
+  "explore-radio": document.getElementById("modal-explore-radio"),
+  "explore-greenhouse": document.getElementById("modal-explore-greenhouse"),
+  "explore-lounge": document.getElementById("modal-explore-lounge"),
 };
 
 elements.sequenceButtons = Array.from(
@@ -313,8 +339,28 @@ elements.travelButtons = Object.entries(TRAVELS).reduce((acc, [key]) => {
 
 elements.hotspots = Array.from(document.querySelectorAll(".hotspot[data-target]"));
 
+elements.mapButtons = {};
+document.querySelectorAll("[data-room-target]").forEach((button) => {
+  const room = button.dataset.roomTarget;
+  if (room) {
+    elements.mapButtons[room] = button;
+  }
+});
+
+elements.mapStatuses = {};
+document.querySelectorAll("[data-room-status]").forEach((status) => {
+  const room = status.dataset.roomStatus;
+  if (room) {
+    elements.mapStatuses[room] = status;
+  }
+});
+
 elements.musicButtons = Array.from(
   document.querySelectorAll(".sequence__token[data-note]")
+);
+
+elements.ambientButtons = Array.from(
+  document.querySelectorAll(".ambient-option")
 );
 
 function findRoom(key) {
@@ -338,6 +384,10 @@ function setRoom(key, { updateNote = false, note } = {}) {
   const roomInfo = findRoom(key);
   if (!roomInfo) return;
   state.room = roomInfo.key;
+  if (!state.visitedRooms) {
+    state.visitedRooms = new Set();
+  }
+  state.visitedRooms.add(state.room);
   if (elements.room) {
     elements.room.setAttribute("data-room", state.room);
   }
@@ -346,6 +396,7 @@ function setRoom(key, { updateNote = false, note } = {}) {
   if (updateNote && nextNote) {
     updateHudNote(nextNote);
   }
+  updateMapDestinations();
 }
 
 function setTravelState(key, unlocked) {
@@ -363,6 +414,7 @@ function setTravelState(key, unlocked) {
     status.textContent = isUnlocked ? travel.unlockedText : travel.lockedText;
     status.classList.toggle("modal__status--active", isUnlocked);
   }
+  updateMapDestinations();
 }
 
 function handleTravel(event) {
@@ -383,6 +435,71 @@ function handleTravel(event) {
 function updateHudNote(text) {
   if (text) {
     elements.hudNote.textContent = text;
+  }
+}
+
+function updateMapDestinations() {
+  if (!elements.mapButtons) return;
+  Object.entries(elements.mapButtons).forEach(([room, button]) => {
+    if (!button) return;
+    const requirement = button.dataset.requirement || "";
+    const unlocked = requirement ? !!state.travelUnlocked[requirement] : true;
+    const isCurrent = state.room === room;
+    const visited = state.visitedRooms?.has(room);
+    button.disabled = !unlocked;
+    button.setAttribute("aria-disabled", unlocked ? "false" : "true");
+    button.classList.toggle("map-list__button--locked", !unlocked);
+    button.classList.toggle("map-list__button--current", isCurrent);
+    const status = elements.mapStatuses?.[room];
+    if (!status) return;
+    const lockedText = status.dataset.locked || "Ruta bloqueada";
+    const statusText = !unlocked
+      ? lockedText
+      : isCurrent
+      ? MAP_DEFAULT_STATUS.current
+      : visited
+      ? MAP_DEFAULT_STATUS.visited
+      : MAP_DEFAULT_STATUS.available;
+    status.textContent = statusText;
+    status.classList.toggle("map-list__status--locked", !unlocked);
+    status.classList.toggle("map-list__status--current", unlocked && isCurrent);
+    status.classList.toggle(
+      "map-list__status--visited",
+      unlocked && visited && !isCurrent
+    );
+  });
+}
+
+function handleMapTravel(event) {
+  const button = event.currentTarget;
+  const room = button?.dataset.roomTarget;
+  if (!room) return;
+  const requirement = button.dataset.requirement || "";
+  if (requirement && !state.travelUnlocked[requirement]) {
+    updateMapDestinations();
+    return;
+  }
+  const note = button.dataset.note;
+  setRoom(room, { updateNote: true, note });
+  closeModal();
+}
+
+function handleAmbientOption(event) {
+  const button = event.currentTarget;
+  const group = button.closest("[data-ambient-group]");
+  if (!group) return;
+  group.querySelectorAll(".ambient-option").forEach((option) => {
+    option.classList.remove("ambient-option--active");
+  });
+  button.classList.add("ambient-option--active");
+  const output = group.querySelector("[data-ambient-output]");
+  if (output) {
+    const description = button.dataset.description || "";
+    output.textContent = description;
+  }
+  const note = button.dataset.note;
+  if (note) {
+    updateHudNote(note);
   }
 }
 
@@ -408,6 +525,7 @@ function markClueSolved(key, noteText) {
   Object.keys(TRAVELS).forEach((travelKey) => {
     setTravelState(travelKey);
   });
+  updateMapDestinations();
   if (CODE_ORDER.every((clue) => state.found[clue])) {
     updateHudNote("Tienes las diez cifras. Vuelve al salón y abre la puerta final.");
   }
@@ -434,6 +552,19 @@ function openModal(key) {
   state.previousFocus = document.activeElement;
   modal.classList.remove("hidden");
   modal.setAttribute("aria-hidden", "false");
+  modal.querySelectorAll("[data-ambient-group]").forEach((group) => {
+    group.querySelectorAll(".ambient-option").forEach((button) => {
+      button.classList.remove("ambient-option--active");
+    });
+    const output = group.querySelector("[data-ambient-output]");
+    if (output) {
+      const defaultText = output.dataset.default || "Selecciona un punto para inspeccionarlo.";
+      output.textContent = defaultText;
+    }
+  });
+  if (key === "map") {
+    updateMapDestinations();
+  }
   state.currentModal = modal;
   const focusable = modal.querySelector(
     "button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex='-1'])"
@@ -931,6 +1062,7 @@ function resetMusicbox() {
 function resetGame(resetVictory = false) {
   state.found = createFoundMap();
   state.travelUnlocked = createTravelMap(state.found);
+  state.visitedRooms = new Set();
   resetChestSequence();
   resetMusicSequence();
   if (resetVictory) {
@@ -1030,9 +1162,17 @@ function init() {
     if (!button) return;
     button.addEventListener("click", handleTravel);
   });
+  Object.values(elements.mapButtons).forEach((button) => {
+    if (!button) return;
+    button.addEventListener("click", handleMapTravel);
+  });
+  elements.ambientButtons.forEach((button) => {
+    button.addEventListener("click", handleAmbientOption);
+  });
   updateLabValue();
   updateRadioValue();
   updateGreenhouseValues();
+  updateMapDestinations();
 }
 
 init();
