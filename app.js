@@ -2,23 +2,80 @@ const CODE_VALUES = {
   diary: "7",
   chest: "4",
   window: "2",
+  bookshelf: "9",
+  archive: "5",
+  laboratory: "8",
+  observatory: "1",
+  radio: "6",
+  greenhouse: "3",
+  musicbox: "0",
 };
 
-const CODE_ORDER = ["diary", "chest", "window"];
+const CODE_ORDER = [
+  "diary",
+  "chest",
+  "window",
+  "bookshelf",
+  "archive",
+  "laboratory",
+  "observatory",
+  "radio",
+  "greenhouse",
+  "musicbox",
+];
+
 const FINAL_CODE = CODE_ORDER.map((key) => CODE_VALUES[key]).join("");
 
 const ROOMS = [
   {
     key: "estudio",
-    note: "El estudio está cubierto de mapas. Explora los puntos brillantes y encuentra la pista escondida en el cuaderno.",
+    note:
+      "El estudio está cubierto de mapas y recuerdos. El cuaderno en el escritorio contiene la primera pista del viaje.",
   },
   {
     key: "vestidor",
-    note: "El vestidor de viajes resplandece con neón. Busca el baúl magnético y activa tu secuencia favorita.",
+    note:
+      "El vestidor neón brilla con maletas abiertas. Encuentra el baúl magnético y pulsa la secuencia favorita.",
   },
   {
     key: "mirador",
-    note: "El mirador nocturno muestra la ciudad. Ajusta el ambiente junto a la ventana antes de abrir la puerta final.",
+    note:
+      "Desde el mirador nocturno debes ajustar las luces, la persiana y la música para revelar un reflejo secreto.",
+  },
+  {
+    key: "biblioteca",
+    note:
+      "La biblioteca oculta libros iluminados. Ordena las letras brillantes para formar la palabra clave.",
+  },
+  {
+    key: "archivo",
+    note:
+      "Los archivos clasificados guardan expedientes con sellos de colores. Selecciona solo los que brillan en dorado y violeta.",
+  },
+  {
+    key: "laboratorio",
+    note:
+      "En el laboratorio las lámparas de neón reaccionan a la temperatura exacta. Ajusta el control hasta 68°.",
+  },
+  {
+    key: "observatorio",
+    note:
+      "El planetario proyecta constelaciones. Escoge la figura en forma de cometa para enviar la señal correcta.",
+  },
+  {
+    key: "radio",
+    note:
+      "La cabina de radio espera la frecuencia perfecta. Gira el dial hasta alcanzar los 98.7 FM.",
+  },
+  {
+    key: "greenhouse",
+    note:
+      "El invernadero violeta requiere el clima ideal. Ajusta temperatura templada y humedad al 70%.",
+  },
+  {
+    key: "lounge",
+    note:
+      "El salón final vibra con luces cálidas. Activa la caja musical para conseguir la última cifra antes de abrir la puerta.",
   },
 ];
 
@@ -27,26 +84,86 @@ const TRAVELS = {
     requirement: "diary",
     to: "vestidor",
     lockedText: "Primero descifra el cuaderno para recordar la palabra clave.",
-    unlockedText: "La palabra de Tokio desbloquea la puerta corredera. Pulsa para cruzar.",
-    note: "Cruzas al vestidor iluminado por luces rosa, listo para abrir el baúl secreto.",
+    unlockedText: "La respuesta del cuaderno abre el pasillo lateral. Pulsa para avanzar.",
+    note: "Cruzas al vestidor iluminado, listo para activar la secuencia magnética.",
   },
   terrace: {
     requirement: "chest",
     to: "mirador",
     lockedText: "Completa la secuencia de imanes para activar el mecanismo.",
-    unlockedText: "Los imanes encajan y la escalera se ilumina. Sube al mirador.",
-    note: "Subes al mirador donde la ciudad brilla; busca la ventana y la puerta blindada.",
+    unlockedText: "Las luces del baúl encienden la escalera al mirador. Continúa arriba.",
+    note: "Llegas al mirador nocturno donde las ventanas dominan la vista de la ciudad.",
+  },
+  library: {
+    requirement: "window",
+    to: "biblioteca",
+    lockedText: "Ajusta la ventana nocturna para descubrir la palabra luminosa.",
+    unlockedText: "El reflejo revela el código y la puerta de la biblioteca se desliza.",
+    note: "La biblioteca huele a páginas antiguas. Busca la estantería que brilla.",
+  },
+  archives: {
+    requirement: "bookshelf",
+    to: "archivo",
+    lockedText: "Primero descifra la palabra escondida entre los libros.",
+    unlockedText: "Las letras se acomodan y el archivo clasificado se desbloquea.",
+    note: "Te adentras entre expedientes secretos y sellos de colores.",
+  },
+  labgate: {
+    requirement: "archive",
+    to: "laboratorio",
+    lockedText: "Selecciona los expedientes correctos para liberar el acceso.",
+    unlockedText: "Los sellos correctos iluminan la puerta del laboratorio.",
+    note: "El laboratorio vibra con luces neón esperando la temperatura ideal.",
+  },
+  observatoryGate: {
+    requirement: "laboratory",
+    to: "observatorio",
+    lockedText: "Calibra la mezcla luminosa hasta alcanzar la temperatura correcta.",
+    unlockedText: "Las lámparas zumban y abren la escalera al planetario.",
+    note: "Subes al planetario donde tres constelaciones flotan en el domo.",
+  },
+  radioGate: {
+    requirement: "observatory",
+    to: "radio",
+    lockedText: "Necesitas proyectar la constelación adecuada antes de descender.",
+    unlockedText: "La señal del cometa desbloquea la puerta hacia la cabina de radio.",
+    note: "La cabina de radio brilla con perillas y paneles iluminados.",
+  },
+  greenhouseGate: {
+    requirement: "radio",
+    to: "greenhouse",
+    lockedText: "Aún falta sintonizar la frecuencia indicada en el dial.",
+    unlockedText: "La transmisión secreta abre el paso al invernadero.",
+    note: "El aire húmedo del invernadero te envuelve con aroma a lavanda.",
+  },
+  loungeGate: {
+    requirement: "greenhouse",
+    to: "lounge",
+    lockedText: "Equilibra temperatura y humedad antes de abrir el salón.",
+    unlockedText: "Los sensores verdes confirman el clima ideal y liberan el acceso final.",
+    note: "Entras al salón del festejo donde la música espera tu toque final.",
   },
 };
 
+function createFoundMap() {
+  return CODE_ORDER.reduce((acc, key) => {
+    acc[key] = false;
+    return acc;
+  }, {});
+}
+
+function createTravelMap() {
+  return Object.keys(TRAVELS).reduce((acc, key) => {
+    acc[key] = false;
+    return acc;
+  }, {});
+}
+
 const state = {
   started: false,
-  found: {
-    diary: false,
-    chest: false,
-    window: false,
-  },
-  sequence: [],
+  found: createFoundMap(),
+  chestSequence: [],
+  musicSequence: [],
   toggles: {
     lights: true,
     blind: false,
@@ -56,10 +173,7 @@ const state = {
   currentModal: null,
   previousFocus: null,
   room: ROOMS[0].key,
-  travelUnlocked: {
-    gallery: false,
-    terrace: false,
-  },
+  travelUnlocked: createTravelMap(),
 };
 
 const elements = {
@@ -80,11 +194,40 @@ const elements = {
   diaryFeedback: document.getElementById("diaryFeedback"),
   windowFeedback: document.getElementById("windowFeedback"),
   toggleCheck: document.getElementById("toggleCheck"),
-  doorFeedbackContainer: document.getElementById("doorFeedback"),
   replay: document.getElementById("replay"),
+  bookshelfForm: document.getElementById("bookshelfForm"),
+  bookshelfFeedback: document.getElementById("bookshelfFeedback"),
+  archiveForm: document.getElementById("archiveForm"),
+  archiveFeedback: document.getElementById("archiveFeedback"),
+  labTemperature: document.getElementById("labTemperature"),
+  labTemperatureValue: document.getElementById("labTemperatureValue"),
+  labCheck: document.getElementById("labCheck"),
+  laboratoryFeedback: document.getElementById("laboratoryFeedback"),
+  observatoryForm: document.getElementById("observatoryForm"),
+  observatoryFeedback: document.getElementById("observatoryFeedback"),
+  radioDial: document.getElementById("radioDial"),
+  radioDialValue: document.getElementById("radioDialValue"),
+  radioCheck: document.getElementById("radioCheck"),
+  radioFeedback: document.getElementById("radioFeedback"),
+  greenhouseTemp: document.getElementById("greenhouseTemp"),
+  greenhouseTempValue: document.getElementById("greenhouseTempValue"),
+  greenhouseHumidity: document.getElementById("greenhouseHumidity"),
+  greenhouseHumidityValue: document.getElementById("greenhouseHumidityValue"),
+  greenhouseCheck: document.getElementById("greenhouseCheck"),
+  greenhouseFeedback: document.getElementById("greenhouseFeedback"),
+  musicSequenceProgress: document.getElementById("musicSequenceProgress"),
+  musicSequenceReset: document.getElementById("musicSequenceReset"),
+  musicboxFeedback: document.getElementById("musicboxFeedback"),
   travelStatus: {
     gallery: document.getElementById("galleryStatus"),
     terrace: document.getElementById("terraceStatus"),
+    library: document.getElementById("libraryStatus"),
+    archives: document.getElementById("archivesStatus"),
+    labgate: document.getElementById("labgateStatus"),
+    observatoryGate: document.getElementById("observatoryGateStatus"),
+    radioGate: document.getElementById("radioGateStatus"),
+    greenhouseGate: document.getElementById("greenhouseGateStatus"),
+    loungeGate: document.getElementById("loungeGateStatus"),
   },
 };
 
@@ -100,10 +243,24 @@ elements.modals = {
   diary: document.getElementById("modal-diary"),
   chest: document.getElementById("modal-chest"),
   window: document.getElementById("modal-window"),
+  bookshelf: document.getElementById("modal-bookshelf"),
+  archive: document.getElementById("modal-archive"),
+  laboratory: document.getElementById("modal-laboratory"),
+  observatory: document.getElementById("modal-observatory"),
+  radio: document.getElementById("modal-radio"),
+  greenhouse: document.getElementById("modal-greenhouse"),
+  musicbox: document.getElementById("modal-musicbox"),
   door: document.getElementById("modal-door"),
   victory: document.getElementById("modal-victory"),
   gallery: document.getElementById("modal-gallery"),
   terrace: document.getElementById("modal-terrace"),
+  library: document.getElementById("modal-library"),
+  archives: document.getElementById("modal-archives"),
+  labgate: document.getElementById("modal-labgate"),
+  observatoryGate: document.getElementById("modal-observatoryGate"),
+  radioGate: document.getElementById("modal-radioGate"),
+  greenhouseGate: document.getElementById("modal-greenhouseGate"),
+  loungeGate: document.getElementById("modal-loungeGate"),
 };
 
 elements.sequenceButtons = Array.from(
@@ -114,12 +271,16 @@ elements.toggleButtons = Array.from(
   document.querySelectorAll(".toggle[data-toggle]")
 );
 
-elements.travelButtons = {
-  gallery: document.querySelector('[data-travel="gallery"]'),
-  terrace: document.querySelector('[data-travel="terrace"]'),
-};
+elements.travelButtons = Object.entries(TRAVELS).reduce((acc, [key]) => {
+  acc[key] = document.querySelector(`[data-travel="${key}"]`);
+  return acc;
+}, {});
 
 elements.hotspots = Array.from(document.querySelectorAll(".hotspot[data-target]"));
+
+elements.musicButtons = Array.from(
+  document.querySelectorAll(".sequence__token[data-note]")
+);
 
 function findRoom(key) {
   return ROOMS.find((room) => room.key === key);
@@ -207,15 +368,15 @@ function markClueSolved(key, noteText) {
   if (noteText) {
     updateHudNote(noteText);
   }
-  if (CODE_ORDER.every((clue) => state.found[clue])) {
-    updateHudNote("Ya tienes los tres números. Ve a la puerta e introdúcelos.");
-  }
-  updateDoorStatus();
   Object.entries(TRAVELS).forEach(([travelKey, travel]) => {
     if (travel.requirement === key) {
       setTravelState(travelKey, true);
     }
   });
+  if (CODE_ORDER.every((clue) => state.found[clue])) {
+    updateHudNote("Tienes las diez cifras. Vuelve al salón y abre la puerta final.");
+  }
+  updateDoorStatus();
 }
 
 function startGame() {
@@ -269,21 +430,21 @@ function updateDoorStatus() {
   }
   if (!allFound) {
     elements.doorStatus.textContent =
-      "Todavía faltan números. Explora la habitación hasta encontrar los tres códigos.";
+      "Todavía faltan números. Explora todas las habitaciones para encontrar las diez cifras.";
     elements.doorCode.value = "";
     elements.doorCode.disabled = true;
     elements.doorButton.disabled = true;
   } else {
     elements.doorStatus.textContent =
-      "Introduce los tres números en el orden en el que los descubriste.";
+      "Introduce los diez números en el orden en el que los descubriste.";
     elements.doorCode.disabled = false;
     elements.doorButton.disabled = false;
   }
   elements.doorFeedback.textContent = "";
 }
 
-function resetSequence(reactivate = true) {
-  state.sequence = [];
+function resetChestSequence(reactivate = true) {
+  state.chestSequence = [];
   elements.sequenceProgress.textContent = "Orden actual: —";
   elements.sequenceButtons.forEach((btn) => {
     btn.classList.remove("active");
@@ -307,26 +468,26 @@ function handleSequenceClick(event) {
   if (state.found.chest) return;
   const button = event.currentTarget;
   const symbol = button.dataset.symbol;
-  state.sequence.push(symbol);
+  state.chestSequence.push(symbol);
   button.classList.add("active");
-  elements.sequenceProgress.textContent = `Orden actual: ${formatSequence(state.sequence)}`;
-  if (state.sequence.length === 3) {
+  elements.sequenceProgress.textContent = `Orden actual: ${formatSequence(state.chestSequence)}`;
+  if (state.chestSequence.length === 3) {
     elements.sequenceButtons.forEach((btn) => {
       btn.disabled = true;
     });
     const goal = ["cat", "plane", "coffee"];
-    const success = goal.every((item, index) => state.sequence[index] === item);
+    const success = goal.every((item, index) => state.chestSequence[index] === item);
     if (success) {
       elements.chestFeedback.textContent = `¡Perfecto! El número revelado es ${CODE_VALUES.chest}.`;
       markClueSolved(
         "chest",
-        "El baúl mostró el número secreto que esperabas para tu próximo viaje. La escalera al mirador enciende sus luces para que avances."
+        "El baúl mostró el número secreto y encendió la escalera al mirador."
       );
     } else {
       elements.chestFeedback.textContent = "La secuencia no coincide. El baúl se reinicia.";
       setTimeout(() => {
         elements.chestFeedback.textContent = "";
-        resetSequence();
+        resetChestSequence();
       }, 900);
     }
   }
@@ -335,7 +496,7 @@ function handleSequenceClick(event) {
 function handleSequenceReset() {
   if (state.found.chest) return;
   elements.chestFeedback.textContent = "";
-  resetSequence();
+  resetChestSequence();
 }
 
 function handleDiarySubmit(event) {
@@ -351,7 +512,7 @@ function handleDiarySubmit(event) {
     elements.diaryFeedback.textContent = `Tokio abre el cuaderno. Apunta el número ${CODE_VALUES.diary}.`;
     markClueSolved(
       "diary",
-      "El cuaderno confirma que Tokio guarda el primer número de la cerradura. El pasillo lateral se desliza y revela el vestidor iluminado."
+      "El cuaderno confirma que Tokio guarda la primera cifra. El pasillo lateral se desliza y revela el vestidor luminoso."
     );
     elements.diaryForm.querySelectorAll("input").forEach((input) => {
       input.disabled = true;
@@ -397,7 +558,7 @@ function handleToggleCheck() {
     elements.windowFeedback.textContent = `El reflejo revela el número ${CODE_VALUES.window}.`;
     markClueSolved(
       "window",
-      "La ventana nocturna deja ver el último número con luces vibrantes. La puerta blindada te espera al borde del mirador."
+      "La ventana nocturna deja ver la pista luminosa. La puerta a la biblioteca responde a la señal."
     );
     elements.toggleButtons.forEach((button) => {
       button.disabled = true;
@@ -408,10 +569,211 @@ function handleToggleCheck() {
   }
 }
 
+function handleBookshelfSubmit(event) {
+  event.preventDefault();
+  if (state.found.bookshelf) return;
+  const answer = elements.bookshelfForm
+    .querySelector("#bookshelfAnswer")
+    .value.trim()
+    .toLowerCase();
+  if (!answer) {
+    elements.bookshelfFeedback.textContent = "Escribe la palabra que forman los libros.";
+    return;
+  }
+  const validAnswers = ["love", "amor"];
+  if (validAnswers.includes(answer)) {
+    elements.bookshelfFeedback.textContent = `Las letras se iluminan y muestran el número ${CODE_VALUES.bookshelf}.`;
+    markClueSolved(
+      "bookshelf",
+      "Las historias se alinean y revelan el acceso al archivo clasificado."
+    );
+    elements.bookshelfForm.querySelector("input").disabled = true;
+    elements.bookshelfForm.querySelector("button[type='submit']").disabled = true;
+  } else {
+    elements.bookshelfFeedback.textContent = "Esa palabra no activa los libros iluminados.";
+  }
+}
+
+function handleArchiveSubmit(event) {
+  event.preventDefault();
+  if (state.found.archive) return;
+  const formData = new FormData(elements.archiveForm);
+  const folders = formData.getAll("folders").sort();
+  const goal = ["gold", "violet"];
+  const success = folders.length === goal.length && goal.every((value, index) => folders[index] === value);
+  if (success) {
+    elements.archiveFeedback.textContent = `Los sellos correctos revelan el número ${CODE_VALUES.archive}.`;
+    markClueSolved(
+      "archive",
+      "Los expedientes dorado y violeta liberan la puerta al laboratorio."
+    );
+    elements.archiveForm.querySelectorAll("input").forEach((input) => {
+      input.disabled = true;
+    });
+    elements.archiveForm.querySelector("button[type='submit']").disabled = true;
+  } else {
+    elements.archiveFeedback.textContent = "Las carpetas seleccionadas no activan la cerradura.";
+  }
+}
+
+function updateLabValue() {
+  if (elements.labTemperatureValue && elements.labTemperature) {
+    elements.labTemperatureValue.textContent = elements.labTemperature.value;
+  }
+}
+
+function handleLabCheck() {
+  if (state.found.laboratory) return;
+  const value = Number(elements.labTemperature.value);
+  const success = value >= 67 && value <= 69;
+  if (success) {
+    elements.laboratoryFeedback.textContent = `La mezcla se estabiliza en ${value}°. Apunta el número ${CODE_VALUES.laboratory}.`;
+    markClueSolved(
+      "laboratory",
+      "La luz perfecta abre la escalera al planetario."
+    );
+    elements.labTemperature.disabled = true;
+    elements.labCheck.disabled = true;
+  } else {
+    elements.laboratoryFeedback.textContent = "La mezcla vibra demasiado. Ajusta la temperatura.";
+  }
+}
+
+function handleObservatorySubmit(event) {
+  event.preventDefault();
+  if (state.found.observatory) return;
+  const formData = new FormData(elements.observatoryForm);
+  const answer = formData.get("constellation");
+  if (!answer) {
+    elements.observatoryFeedback.textContent = "Selecciona una constelación.";
+    return;
+  }
+  if (answer === "comet") {
+    elements.observatoryFeedback.textContent = `El cometa ilumina el domo y revela el número ${CODE_VALUES.observatory}.`;
+    markClueSolved(
+      "observatory",
+      "La señal del cometa baja la escalera hacia la cabina de radio."
+    );
+    elements.observatoryForm.querySelectorAll("input").forEach((input) => {
+      input.disabled = true;
+    });
+    elements.observatoryForm.querySelector("button[type='submit']").disabled = true;
+  } else {
+    elements.observatoryFeedback.textContent = "Esa constelación no coincide con la pista del cometa.";
+  }
+}
+
+function updateRadioValue() {
+  if (elements.radioDialValue && elements.radioDial) {
+    elements.radioDialValue.textContent = Number(elements.radioDial.value).toFixed(1);
+  }
+}
+
+function handleRadioCheck() {
+  if (state.found.radio) return;
+  const value = Number(elements.radioDial.value);
+  const success = Math.abs(value - 98.7) <= 0.15;
+  if (success) {
+    elements.radioFeedback.textContent = `La señal se fija en ${value.toFixed(1)} FM y muestra el número ${CODE_VALUES.radio}.`;
+    markClueSolved(
+      "radio",
+      "La frecuencia correcta envía la señal que abre el invernadero."
+    );
+    elements.radioDial.disabled = true;
+    elements.radioCheck.disabled = true;
+  } else {
+    elements.radioFeedback.textContent = "La transmisión se pierde. Ajusta de nuevo el dial.";
+  }
+}
+
+function updateGreenhouseValues() {
+  if (elements.greenhouseTempValue && elements.greenhouseTemp) {
+    elements.greenhouseTempValue.textContent = elements.greenhouseTemp.value;
+  }
+  if (elements.greenhouseHumidityValue && elements.greenhouseHumidity) {
+    elements.greenhouseHumidityValue.textContent = elements.greenhouseHumidity.value;
+  }
+}
+
+function handleGreenhouseCheck() {
+  if (state.found.greenhouse) return;
+  const temp = Number(elements.greenhouseTemp.value);
+  const humidity = Number(elements.greenhouseHumidity.value);
+  const tempOk = temp >= 22 && temp <= 24;
+  const humidityOk = humidity >= 69 && humidity <= 71;
+  if (tempOk && humidityOk) {
+    elements.greenhouseFeedback.textContent = `Los sensores celebran el clima perfecto. Anota el número ${CODE_VALUES.greenhouse}.`;
+    markClueSolved(
+      "greenhouse",
+      "El ambiente equilibrado revela la entrada al salón del festejo."
+    );
+    elements.greenhouseTemp.disabled = true;
+    elements.greenhouseHumidity.disabled = true;
+    elements.greenhouseCheck.disabled = true;
+  } else {
+    elements.greenhouseFeedback.textContent = "Los reguladores parpadean en rojo. Ajusta temperatura y humedad.";
+  }
+}
+
+function resetMusicSequence(reactivate = true) {
+  state.musicSequence = [];
+  if (elements.musicSequenceProgress) {
+    elements.musicSequenceProgress.textContent = "Notas activas: —";
+  }
+  elements.musicButtons.forEach((button) => {
+    button.classList.remove("active");
+    if (reactivate && !state.found.musicbox) {
+      button.disabled = false;
+    }
+  });
+}
+
+function formatMusicSequence(sequence) {
+  if (!sequence.length) return "—";
+  return sequence.map((note) => note.toUpperCase()).join(" · ");
+}
+
+function handleMusicNote(event) {
+  if (state.found.musicbox) return;
+  const button = event.currentTarget;
+  const note = button.dataset.note;
+  state.musicSequence.push(note);
+  button.classList.add("active");
+  if (elements.musicSequenceProgress) {
+    elements.musicSequenceProgress.textContent = `Notas activas: ${formatMusicSequence(state.musicSequence)}`;
+  }
+  if (state.musicSequence.length === 4) {
+    elements.musicButtons.forEach((btn) => {
+      btn.disabled = true;
+    });
+    const goal = ["do", "mi", "sol", "la"];
+    const success = goal.every((item, index) => state.musicSequence[index] === item);
+    if (success) {
+      elements.musicboxFeedback.textContent = `La melodía resuena y muestra el número final ${CODE_VALUES.musicbox}.`;
+      markClueSolved(
+        "musicbox",
+        "La caja musical completa el código. La puerta blindada espera tu combinación de diez cifras."
+      );
+    } else {
+      elements.musicboxFeedback.textContent = "Las notas desafinan. Intenta otra vez.";
+      setTimeout(() => {
+        elements.musicboxFeedback.textContent = "";
+        resetMusicSequence();
+      }, 900);
+    }
+  }
+}
+
+function handleMusicReset() {
+  if (state.found.musicbox) return;
+  elements.musicboxFeedback.textContent = "";
+  resetMusicSequence();
+}
+
 function handleDoorSubmit(event) {
   event.preventDefault();
   if (!CODE_ORDER.every((clue) => state.found[clue])) {
-    elements.doorFeedback.textContent = "Necesitas los tres números antes de intentarlo.";
+    elements.doorFeedback.textContent = "Necesitas las diez cifras antes de intentarlo.";
     return;
   }
   const code = elements.doorCode.value.trim();
@@ -423,7 +785,7 @@ function handleDoorSubmit(event) {
       openModal("victory");
     }, 400);
   } else {
-    elements.doorFeedback.textContent = "Ese código no abre la puerta. Prueba combinando los números encontrados.";
+    elements.doorFeedback.textContent = "Ese código no abre la puerta. Repasa los números encontrados.";
   }
 }
 
@@ -457,13 +819,85 @@ function resetDiary() {
   elements.diaryFeedback.textContent = "";
 }
 
+function resetBookshelf() {
+  elements.bookshelfForm.reset();
+  const input = elements.bookshelfForm.querySelector("input");
+  if (input) input.disabled = false;
+  const submit = elements.bookshelfForm.querySelector("button[type='submit']");
+  if (submit) submit.disabled = false;
+  elements.bookshelfFeedback.textContent = "";
+}
+
+function resetArchive() {
+  elements.archiveForm.reset();
+  elements.archiveForm.querySelectorAll("input").forEach((input) => {
+    input.disabled = false;
+  });
+  const submit = elements.archiveForm.querySelector("button[type='submit']");
+  if (submit) submit.disabled = false;
+  elements.archiveFeedback.textContent = "";
+}
+
+function resetLab() {
+  if (elements.labTemperature) {
+    elements.labTemperature.disabled = false;
+    elements.labTemperature.value = "50";
+  }
+  if (elements.labCheck) {
+    elements.labCheck.disabled = false;
+  }
+  updateLabValue();
+  elements.laboratoryFeedback.textContent = "";
+}
+
+function resetObservatory() {
+  elements.observatoryForm.reset();
+  elements.observatoryForm.querySelectorAll("input").forEach((input) => {
+    input.disabled = false;
+  });
+  const submit = elements.observatoryForm.querySelector("button[type='submit']");
+  if (submit) submit.disabled = false;
+  elements.observatoryFeedback.textContent = "";
+}
+
+function resetRadio() {
+  if (elements.radioDial) {
+    elements.radioDial.disabled = false;
+    elements.radioDial.value = "95";
+  }
+  if (elements.radioCheck) {
+    elements.radioCheck.disabled = false;
+  }
+  updateRadioValue();
+  elements.radioFeedback.textContent = "";
+}
+
+function resetGreenhouse() {
+  if (elements.greenhouseTemp) {
+    elements.greenhouseTemp.disabled = false;
+    elements.greenhouseTemp.value = "24";
+  }
+  if (elements.greenhouseHumidity) {
+    elements.greenhouseHumidity.disabled = false;
+    elements.greenhouseHumidity.value = "55";
+  }
+  if (elements.greenhouseCheck) {
+    elements.greenhouseCheck.disabled = false;
+  }
+  updateGreenhouseValues();
+  elements.greenhouseFeedback.textContent = "";
+}
+
+function resetMusicbox() {
+  resetMusicSequence();
+  elements.musicboxFeedback.textContent = "";
+}
+
 function resetGame(resetVictory = false) {
-  state.found = {
-    diary: false,
-    chest: false,
-    window: false,
-  };
-  state.sequence = [];
+  state.found = createFoundMap();
+  state.travelUnlocked = createTravelMap();
+  resetChestSequence();
+  resetMusicSequence();
   if (resetVictory) {
     state.victory = false;
   }
@@ -477,9 +911,8 @@ function resetGame(resetVictory = false) {
   document.querySelectorAll(".clue-list li").forEach((item) => {
     item.classList.remove("found");
   });
-  updateHudNote("Necesitas encontrar tres números antes de abrir la puerta.");
+  updateHudNote("Necesitas encontrar diez números antes de abrir la puerta.");
   updateCodeDisplay();
-  resetSequence();
   resetToggles();
   resetDiary();
   elements.chestFeedback.textContent = "";
@@ -490,7 +923,14 @@ function resetGame(resetVictory = false) {
   elements.doorCode.disabled = true;
   elements.doorButton.disabled = true;
   elements.doorStatus.textContent =
-    "Todavía faltan números. Explora la habitación hasta encontrar los tres códigos.";
+    "Todavía faltan números. Explora todas las habitaciones para encontrar las diez cifras.";
+  resetBookshelf();
+  resetArchive();
+  resetLab();
+  resetObservatory();
+  resetRadio();
+  resetGreenhouse();
+  resetMusicbox();
 }
 
 function bindHotspots() {
@@ -535,12 +975,29 @@ function init() {
     button.addEventListener("click", handleToggleClick);
   });
   elements.toggleCheck.addEventListener("click", handleToggleCheck);
+  elements.bookshelfForm.addEventListener("submit", handleBookshelfSubmit);
+  elements.archiveForm.addEventListener("submit", handleArchiveSubmit);
+  elements.labTemperature.addEventListener("input", updateLabValue);
+  elements.labCheck.addEventListener("click", handleLabCheck);
+  elements.observatoryForm.addEventListener("submit", handleObservatorySubmit);
+  elements.radioDial.addEventListener("input", updateRadioValue);
+  elements.radioCheck.addEventListener("click", handleRadioCheck);
+  elements.greenhouseTemp.addEventListener("input", updateGreenhouseValues);
+  elements.greenhouseHumidity.addEventListener("input", updateGreenhouseValues);
+  elements.greenhouseCheck.addEventListener("click", handleGreenhouseCheck);
+  elements.musicButtons.forEach((button) => {
+    button.addEventListener("click", handleMusicNote);
+  });
+  elements.musicSequenceReset.addEventListener("click", handleMusicReset);
   elements.doorForm.addEventListener("submit", handleDoorSubmit);
   elements.replay.addEventListener("click", handleReplay);
   Object.entries(elements.travelButtons).forEach(([key, button]) => {
     if (!button) return;
     button.addEventListener("click", handleTravel);
   });
+  updateLabValue();
+  updateRadioValue();
+  updateGreenhouseValues();
 }
 
 init();
