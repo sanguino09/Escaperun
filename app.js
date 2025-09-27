@@ -30,54 +30,61 @@ const ROOMS = [
   {
     key: "estudio",
     note:
-      "El estudio está cubierto de mapas y recuerdos. El cuaderno en el escritorio contiene la primera pista del viaje.",
+      "El estudio está cubierto de mapas y recuerdos. Investiga el cuaderno o abre el pasillo lateral cuando quieras cambiar de ambiente.",
   },
   {
     key: "vestidor",
     note:
-      "El vestidor neón brilla con maletas abiertas. Encuentra el baúl magnético y pulsa la secuencia favorita.",
+      "El vestidor neón brilla con maletas abiertas. Experimenta con el baúl o reúne pistas para iluminar nuevas rutas.",
   },
   {
     key: "mirador",
     note:
-      "Desde el mirador nocturno debes ajustar las luces, la persiana y la música para revelar un reflejo secreto.",
+      "Desde el mirador nocturno puedes ajustar luces, persiana y música. Cada pista resuelta añade energía a los accesos siguientes.",
   },
   {
     key: "biblioteca",
     note:
-      "La biblioteca oculta libros iluminados. Ordena las letras brillantes para formar la palabra clave.",
+      "La biblioteca oculta libros iluminados. Busca combinaciones distintas mientras decides a qué sala viajar.",
   },
   {
     key: "archivo",
     note:
-      "Los archivos clasificados guardan expedientes con sellos de colores. Selecciona solo los que brillan en dorado y violeta.",
+      "Los archivos clasificados guardan expedientes con sellos de colores. Escoge los dorados y violetas para sumar más progreso.",
   },
   {
     key: "laboratorio",
     note:
-      "En el laboratorio las lámparas de neón reaccionan a la temperatura exacta. Ajusta el control hasta 68°.",
+      "En el laboratorio las lámparas de neón reaccionan a la temperatura exacta. Ajusta el control hasta 68° cuando quieras concentrarte aquí.",
   },
   {
     key: "observatorio",
     note:
-      "El planetario proyecta constelaciones. Escoge la figura en forma de cometa para enviar la señal correcta.",
+      "El planetario proyecta constelaciones. Elige la figura en forma de cometa para seguir ampliando caminos.",
   },
   {
     key: "radio",
     note:
-      "La cabina de radio espera la frecuencia perfecta. Gira el dial hasta alcanzar los 98.7 FM.",
+      "La cabina de radio espera la frecuencia perfecta. Gira el dial hasta alcanzar los 98.7 FM y mantener abiertas más puertas.",
   },
   {
     key: "greenhouse",
     note:
-      "El invernadero violeta requiere el clima ideal. Ajusta temperatura templada y humedad al 70%.",
+      "El invernadero violeta requiere el clima ideal. Ajusta temperatura templada y humedad al 70% para acercarte al salón final.",
   },
   {
     key: "lounge",
     note:
-      "El salón final vibra con luces cálidas. Activa la caja musical para conseguir la última cifra antes de abrir la puerta.",
+      "El salón final vibra con luces cálidas. Activa la caja musical cuando estés listo para obtener la última cifra.",
   },
 ];
+
+function formatRemainingCount(remaining) {
+  if (remaining <= 0) {
+    return "ninguna pista pendiente";
+  }
+  return remaining === 1 ? "una pista más" : `${remaining} pistas más`;
+}
 
 const TRAVELS = {
   gallery: {
@@ -86,71 +93,88 @@ const TRAVELS = {
     to: "vestidor",
     lockedText: "El pasillo está esperando. Decide cuándo cruzarlo.",
     unlockedText: "El pasillo lateral está libre. Entra al vestidor luminoso cuando quieras.",
-    note: "Cruzas al vestidor iluminado, listo para activar la secuencia magnética.",
+    note: "Cruzas al vestidor iluminado, listo para activar la secuencia magnética o seguir sumando pistas.",
   },
   terrace: {
-    unlockType: "any",
-    requirements: ["diary", "chest"],
+    unlockType: "count",
+    minimumSolved: 1,
+    requirements: [],
     to: "mirador",
-    lockedText: "Resuelve el cuaderno o el baúl para activar la escalera al mirador.",
+    lockedText: ({ remaining }) =>
+      `Necesitas resolver ${formatRemainingCount(remaining)} antes de que la escalera al mirador se ilumine.`,
     unlockedText:
-      "Las luces del baúl o la pista del cuaderno encienden la escalera al mirador. Continúa arriba.",
+      "Tus primeras pistas iluminan la escalera al mirador. Sube cuando quieras observar la ciudad.",
     note: "Llegas al mirador nocturno donde las ventanas dominan la vista de la ciudad.",
   },
   library: {
-    unlockType: "all",
-    requirements: ["window"],
+    unlockType: "count",
+    minimumSolved: 2,
+    requirements: [],
     to: "biblioteca",
-    lockedText: "Ajusta la ventana nocturna para descubrir la palabra luminosa.",
-    unlockedText: "El reflejo revela el código y la puerta de la biblioteca se desliza.",
+    lockedText: ({ remaining }) =>
+      `Resuelve ${formatRemainingCount(remaining)} para que la puerta de la biblioteca reconozca tu progreso.`,
+    unlockedText:
+      "Tu avance activa la puerta de la biblioteca oculta. Entra cuando quieras sumergirte entre libros.",
     note: "La biblioteca huele a páginas antiguas. Busca la estantería que brilla.",
   },
   archives: {
-    unlockType: "all",
-    requirements: ["bookshelf"],
+    unlockType: "count",
+    minimumSolved: 3,
+    requirements: [],
     to: "archivo",
-    lockedText: "Primero descifra la palabra escondida entre los libros.",
-    unlockedText: "Las letras se acomodan y el archivo clasificado se desbloquea.",
+    lockedText: ({ remaining }) =>
+      `Necesitas ${formatRemainingCount(remaining)} para abrir el archivo clasificado.`,
+    unlockedText: "Tu colección de pistas desbloquea el archivo clasificado.",
     note: "Te adentras entre expedientes secretos y sellos de colores.",
   },
   labgate: {
-    unlockType: "all",
-    requirements: ["archive"],
+    unlockType: "count",
+    minimumSolved: 4,
+    requirements: [],
     to: "laboratorio",
-    lockedText: "Selecciona los expedientes correctos para liberar el acceso.",
-    unlockedText: "Los sellos correctos iluminan la puerta del laboratorio.",
+    lockedText: ({ remaining }) =>
+      `Resuelve ${formatRemainingCount(remaining)} para alimentar la puerta del laboratorio.`,
+    unlockedText: "La energía acumulada abre el laboratorio lumínico.",
     note: "El laboratorio vibra con luces neón esperando la temperatura ideal.",
   },
   observatoryGate: {
-    unlockType: "all",
-    requirements: ["laboratory"],
+    unlockType: "count",
+    minimumSolved: 5,
+    requirements: [],
     to: "observatorio",
-    lockedText: "Calibra la mezcla luminosa hasta alcanzar la temperatura correcta.",
-    unlockedText: "Las lámparas zumban y abren la escalera al planetario.",
+    lockedText: ({ remaining }) =>
+      `Suma ${formatRemainingCount(remaining)} antes de que la escalera al planetario responda.`,
+    unlockedText: "Las lámparas zumban con tu progreso y abren la escalera al planetario.",
     note: "Subes al planetario donde tres constelaciones flotan en el domo.",
   },
   radioGate: {
-    unlockType: "all",
-    requirements: ["observatory"],
+    unlockType: "count",
+    minimumSolved: 6,
+    requirements: [],
     to: "radio",
-    lockedText: "Necesitas proyectar la constelación adecuada antes de descender.",
-    unlockedText: "La señal del cometa desbloquea la puerta hacia la cabina de radio.",
+    lockedText: ({ remaining }) =>
+      `Necesitas ${formatRemainingCount(remaining)} para que la compuerta de la cabina se active.`,
+    unlockedText: "La señal acumulada abre la compuerta hacia la cabina de radio.",
     note: "La cabina de radio brilla con perillas y paneles iluminados.",
   },
   greenhouseGate: {
-    unlockType: "all",
-    requirements: ["radio"],
+    unlockType: "count",
+    minimumSolved: 7,
+    requirements: [],
     to: "greenhouse",
-    lockedText: "Aún falta sintonizar la frecuencia indicada en el dial.",
-    unlockedText: "La transmisión secreta abre el paso al invernadero.",
+    lockedText: ({ remaining }) =>
+      `Te falta ${formatRemainingCount(remaining)} para que el invernadero reconozca tu avance.`,
+    unlockedText: "La transmisión de pistas abre el paso al invernadero.",
     note: "El aire húmedo del invernadero te envuelve con aroma a lavanda.",
   },
   loungeGate: {
-    unlockType: "all",
-    requirements: ["greenhouse"],
+    unlockType: "count",
+    minimumSolved: 8,
+    requirements: [],
     to: "lounge",
-    lockedText: "Equilibra temperatura y humedad antes de abrir el salón.",
-    unlockedText: "Los sensores verdes confirman el clima ideal y liberan el acceso final.",
+    lockedText: ({ remaining }) =>
+      `Resuelve ${formatRemainingCount(remaining)} para que el salón final abra sus puertas.`,
+    unlockedText: "La suma de tus pistas libera el acceso al salón final.",
     note: "Entras al salón del festejo donde la música espera tu toque final.",
   },
 };
@@ -348,6 +372,16 @@ function setRoom(key, { updateNote = false, note } = {}) {
   }
 }
 
+function getTravelLockedStatus(travel) {
+  if (typeof travel.lockedText === "function") {
+    const minimum = travel.minimumSolved ?? (travel.requirements?.length ?? 0);
+    const solved = getSolvedCount(state.found);
+    const remaining = Math.max(minimum - solved, 0);
+    return travel.lockedText({ remaining, solved, minimum });
+  }
+  return travel.lockedText;
+}
+
 function setTravelState(key, unlocked) {
   const travel = TRAVELS[key];
   if (!travel) return;
@@ -360,7 +394,8 @@ function setTravelState(key, unlocked) {
     button.disabled = !isUnlocked;
   }
   if (status) {
-    status.textContent = isUnlocked ? travel.unlockedText : travel.lockedText;
+    const statusText = isUnlocked ? travel.unlockedText : getTravelLockedStatus(travel);
+    status.textContent = statusText;
     status.classList.toggle("modal__status--active", isUnlocked);
   }
 }
