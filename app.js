@@ -81,63 +81,73 @@ const ROOMS = [
 
 const TRAVELS = {
   gallery: {
-    requirement: "diary",
+    unlockType: "immediate",
+    requirements: [],
     to: "vestidor",
-    lockedText: "Primero descifra el cuaderno para recordar la palabra clave.",
-    unlockedText: "La respuesta del cuaderno abre el pasillo lateral. Pulsa para avanzar.",
+    lockedText: "El pasillo está esperando. Decide cuándo cruzarlo.",
+    unlockedText: "El pasillo lateral está libre. Entra al vestidor luminoso cuando quieras.",
     note: "Cruzas al vestidor iluminado, listo para activar la secuencia magnética.",
   },
   terrace: {
-    requirement: "chest",
+    unlockType: "any",
+    requirements: ["diary", "chest"],
     to: "mirador",
-    lockedText: "Completa la secuencia de imanes para activar el mecanismo.",
-    unlockedText: "Las luces del baúl encienden la escalera al mirador. Continúa arriba.",
+    lockedText: "Resuelve el cuaderno o el baúl para activar la escalera al mirador.",
+    unlockedText:
+      "Las luces del baúl o la pista del cuaderno encienden la escalera al mirador. Continúa arriba.",
     note: "Llegas al mirador nocturno donde las ventanas dominan la vista de la ciudad.",
   },
   library: {
-    requirement: "window",
+    unlockType: "all",
+    requirements: ["window"],
     to: "biblioteca",
     lockedText: "Ajusta la ventana nocturna para descubrir la palabra luminosa.",
     unlockedText: "El reflejo revela el código y la puerta de la biblioteca se desliza.",
     note: "La biblioteca huele a páginas antiguas. Busca la estantería que brilla.",
   },
   archives: {
-    requirement: "bookshelf",
+    unlockType: "all",
+    requirements: ["bookshelf"],
     to: "archivo",
     lockedText: "Primero descifra la palabra escondida entre los libros.",
     unlockedText: "Las letras se acomodan y el archivo clasificado se desbloquea.",
     note: "Te adentras entre expedientes secretos y sellos de colores.",
   },
   labgate: {
-    requirement: "archive",
+    unlockType: "all",
+    requirements: ["archive"],
     to: "laboratorio",
     lockedText: "Selecciona los expedientes correctos para liberar el acceso.",
     unlockedText: "Los sellos correctos iluminan la puerta del laboratorio.",
     note: "El laboratorio vibra con luces neón esperando la temperatura ideal.",
   },
   observatoryGate: {
-    requirement: "laboratory",
+    unlockType: "all",
+    requirements: ["laboratory"],
     to: "observatorio",
     lockedText: "Calibra la mezcla luminosa hasta alcanzar la temperatura correcta.",
     unlockedText: "Las lámparas zumban y abren la escalera al planetario.",
     note: "Subes al planetario donde tres constelaciones flotan en el domo.",
   },
   radioGate: {
-    requirement: "observatory",
+    unlockType: "all",
+    requirements: ["observatory"],
     to: "radio",
     lockedText: "Necesitas proyectar la constelación adecuada antes de descender.",
     unlockedText: "La señal del cometa desbloquea la puerta hacia la cabina de radio.",
     note: "La cabina de radio brilla con perillas y paneles iluminados.",
   },
   greenhouseGate: {
-    requirement: "radio",
+    unlockType: "all",
+    requirements: ["radio"],
     to: "greenhouse",
     lockedText: "Aún falta sintonizar la frecuencia indicada en el dial.",
     unlockedText: "La transmisión secreta abre el paso al invernadero.",
     note: "El aire húmedo del invernadero te envuelve con aroma a lavanda.",
   },
   loungeGate: {
-    requirement: "greenhouse",
+    unlockType: "all",
+    requirements: ["greenhouse"],
     to: "lounge",
     lockedText: "Equilibra temperatura y humedad antes de abrir el salón.",
     unlockedText: "Los sensores verdes confirman el clima ideal y liberan el acceso final.",
@@ -152,9 +162,34 @@ function createFoundMap() {
   }, {});
 }
 
-function createTravelMap() {
-  return Object.keys(TRAVELS).reduce((acc, key) => {
-    acc[key] = false;
+function getSolvedCount(foundMap) {
+  return CODE_ORDER.reduce((total, clue) => (foundMap[clue] ? total + 1 : total), 0);
+}
+
+function evaluateTravelUnlocked(travel, foundMap) {
+  if (!travel) return false;
+  const requirements = travel.requirements ?? [];
+  const solvedCount = getSolvedCount(foundMap);
+  switch (travel.unlockType) {
+    case "immediate":
+      return true;
+    case "any":
+      return requirements.some((clue) => foundMap[clue]);
+    case "count":
+      return solvedCount >= (travel.minimumSolved ?? requirements.length);
+    case "all":
+    default:
+      if (!requirements.length) {
+        return false;
+      }
+      return requirements.every((clue) => foundMap[clue]);
+  }
+}
+
+function createTravelMap(foundMap = null) {
+  const resolvedFound = foundMap ?? createFoundMap();
+  return Object.entries(TRAVELS).reduce((acc, [key, travel]) => {
+    acc[key] = evaluateTravelUnlocked(travel, resolvedFound);
     return acc;
   }, {});
 }
@@ -316,15 +351,17 @@ function setRoom(key, { updateNote = false, note } = {}) {
 function setTravelState(key, unlocked) {
   const travel = TRAVELS[key];
   if (!travel) return;
-  state.travelUnlocked[key] = unlocked;
+  const isUnlocked =
+    typeof unlocked === "boolean" ? unlocked : evaluateTravelUnlocked(travel, state.found);
+  state.travelUnlocked[key] = isUnlocked;
   const button = elements.travelButtons[key];
   const status = elements.travelStatus[key];
   if (button) {
-    button.disabled = !unlocked;
+    button.disabled = !isUnlocked;
   }
   if (status) {
-    status.textContent = unlocked ? travel.unlockedText : travel.lockedText;
-    status.classList.toggle("modal__status--active", unlocked);
+    status.textContent = isUnlocked ? travel.unlockedText : travel.lockedText;
+    status.classList.toggle("modal__status--active", isUnlocked);
   }
 }
 
@@ -368,10 +405,8 @@ function markClueSolved(key, noteText) {
   if (noteText) {
     updateHudNote(noteText);
   }
-  Object.entries(TRAVELS).forEach(([travelKey, travel]) => {
-    if (travel.requirement === key) {
-      setTravelState(travelKey, true);
-    }
+  Object.keys(TRAVELS).forEach((travelKey) => {
+    setTravelState(travelKey);
   });
   if (CODE_ORDER.every((clue) => state.found[clue])) {
     updateHudNote("Tienes las diez cifras. Vuelve al salón y abre la puerta final.");
@@ -895,7 +930,7 @@ function resetMusicbox() {
 
 function resetGame(resetVictory = false) {
   state.found = createFoundMap();
-  state.travelUnlocked = createTravelMap();
+  state.travelUnlocked = createTravelMap(state.found);
   resetChestSequence();
   resetMusicSequence();
   if (resetVictory) {
@@ -903,7 +938,7 @@ function resetGame(resetVictory = false) {
   }
   setRoom(ROOMS[0].key, { updateNote: false });
   Object.keys(TRAVELS).forEach((key) => {
-    setTravelState(key, false);
+    setTravelState(key, state.travelUnlocked[key]);
   });
   Object.values(elements.numberSlots).forEach((span) => {
     span.textContent = "_";
